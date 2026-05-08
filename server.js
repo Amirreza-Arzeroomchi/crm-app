@@ -20,6 +20,9 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use(express.json());
 app.use(express.static("public"));
+app.get("/", (req, res) => {
+  res.redirect("/login.html");
+});
 
 const dataFile = path.join(__dirname, "public", "data.json");
 
