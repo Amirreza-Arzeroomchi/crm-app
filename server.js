@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use(express.json());
 app.use(express.static("public"));
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/login.html");
+  res.redirect("/login.html");
 });
 app.get("/", (req, res) => {
   res.redirect("/login.html");
