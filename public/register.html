@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+
+  <style>
+
+    body{
+      margin:0;
+      background:#0f0f0f;
+      font-family:Arial;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      color:white;
+    }
+
+    .box{
+      width:400px;
+      background:#1b1b1b;
+      padding:40px;
+      border-radius:20px;
+      box-shadow:0 0 30px rgba(255,215,0,0.2);
+    }
+
+    h1{
+      text-align:center;
+      color:gold;
+      margin-bottom:30px;
+    }
+
+    input{
+      width:100%;
+      padding:15px;
+      margin-bottom:15px;
+      border:none;
+      border-radius:10px;
+      background:#2b2b2b;
+      color:white;
+      font-size:16px;
+      box-sizing:border-box;
+    }
+
+    button{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:10px;
+      background:gold;
+      color:black;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    button:hover{
+      opacity:.9;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="box">
+
+    <h1>Create Account</h1>
+
+    <input type="text" id="name" placeholder="Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="register()">Register</button>
+
+  </div>
+
+  <script>
+
+    async function register(){
+
+      const user = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+
+      const response = await fetch("/register", {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(user)
+
+      });
+
+      const result = await response.text();
+
+      alert(result);
+
+    }
+
+  </script>
+
+</body>
+
+</html>

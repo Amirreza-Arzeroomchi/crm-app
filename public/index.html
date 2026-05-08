@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LOGO ONLY -->
+    <div class="logo-container">
+      <img src="logo.png" class="logo" />
+    </div>
+
+    <form id="customerForm">
+
+      <input type="text" id="firstName" placeholder="First Name *" required>
+      <input type="text" id="lastName" placeholder="Last Name *" required>
+      <input type="text" id="phone" placeholder="Phone *" required>
+      <input type="email" id="email" placeholder="Email *" required>
+      <input type="text" id="address" placeholder="Address (optional)">
+      <input type="text" id="city" placeholder="City *" required>
+
+      <textarea id="description" placeholder="Description / Request"></textarea>
+
+      <button type="submit">Save</button>
+
+    </form>
+
+    <a href="dashboard.html">Go to Dashboard</a>
+
+  </div>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
