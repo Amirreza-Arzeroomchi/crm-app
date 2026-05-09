@@ -1,258 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Customer Form</title>
 
   <style>
-
-    * {
-
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial;
     }
 
-    body {
-
-      background: #111;
-      color: white;
-      min-height: 100vh;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 40px 20px;
-
+    body{
+      background:#111;
+      color:white;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:40px;
     }
 
-    .container {
-
-      width: 100%;
-      max-width: 950px;
-
-      background: #1b1b1b;
-
-      padding: 40px;
-
-      border-radius: 25px;
-
-      box-shadow:
-        0 0 25px rgba(255, 215, 0, 0.15);
-
+    .container{
+      width:100%;
+      max-width:900px;
+      background:#1b1b1b;
+      padding:40px;
+      border-radius:25px;
+      border:2px solid #222;
     }
 
-    .logo {
-
-      text-align: center;
-
-      margin-bottom: 35px;
-
+    h1{
+      color:#f5d000;
+      margin-bottom:30px;
+      text-align:center;
     }
 
-    .logo img {
-
-      width: 100%;
-      max-width: 500px;
-
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
     }
 
-    h1 {
-
-      color: gold;
-
-      margin-bottom: 30px;
-
-      text-align: center;
-
-      font-size: 42px;
-
+    input, textarea{
+      width:100%;
+      padding:18px;
+      border:none;
+      border-radius:14px;
+      background:#5d6068;
+      color:white;
+      font-size:18px;
     }
 
-    form {
-
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-
+    textarea{
+      margin-top:20px;
+      resize:none;
+      height:180px;
     }
 
-    .grid {
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 20px;
-
+    .file-box{
+      margin-top:20px;
+      background:#222;
+      padding:20px;
+      border-radius:14px;
     }
 
-    input,
-    textarea {
-
-      width: 100%;
-
-      padding: 18px;
-
-      border: none;
-
-      border-radius: 14px;
-
-      background: #6f727a;
-
-      color: white;
-
-      font-size: 18px;
-
-      outline: none;
-
+    button{
+      width:100%;
+      margin-top:20px;
+      padding:18px;
+      border:none;
+      border-radius:14px;
+      background:#f5d000;
+      color:black;
+      font-size:24px;
+      font-weight:bold;
+      cursor:pointer;
     }
 
-    textarea {
-
-      min-height: 160px;
-
-      resize: vertical;
-
+    a{
+      color:#f5d000;
+      text-decoration:none;
+      display:block;
+      margin-top:20px;
+      text-align:center;
     }
-
-    input::placeholder,
-    textarea::placeholder {
-
-      color: #ddd;
-
-    }
-
-    .upload-box {
-
-      background: #202020;
-
-      padding: 20px;
-
-      border-radius: 16px;
-
-    }
-
-    .upload-title {
-
-      margin-bottom: 15px;
-
-      color: #aaa;
-
-      font-size: 18px;
-
-    }
-
-    input[type="file"] {
-
-      background: transparent;
-      padding: 0;
-
-    }
-
-    button {
-
-      border: none;
-
-      background: gold;
-
-      color: black;
-
-      font-size: 24px;
-
-      font-weight: bold;
-
-      padding: 18px;
-
-      border-radius: 14px;
-
-      cursor: pointer;
-
-      transition: 0.3s;
-
-    }
-
-    button:hover {
-
-      opacity: 0.85;
-
-    }
-
-    .dashboard-link {
-
-      text-align: center;
-
-      margin-top: 20px;
-
-    }
-
-    .dashboard-link a {
-
-      color: gold;
-
-      text-decoration: none;
-
-      font-size: 18px;
-
-    }
-
-    @media (max-width: 768px) {
-
-      .grid {
-
-        grid-template-columns: 1fr;
-
-      }
-
-      .container {
-
-        padding: 25px;
-
-      }
-
-      h1 {
-
-        font-size: 32px;
-
-      }
-
-    }
-
   </style>
-
 </head>
 
 <body>
 
   <div class="container">
 
-    <div class="logo">
-
-      <img
-        src="logo.png"
-        alt="Logo"
-      />
-
-    </div>
-
     <h1>Add Customer</h1>
 
-    <form
-      id="customerForm"
-      enctype="multipart/form-data"
-    >
+    <form id="customerForm">
 
       <div class="grid">
 
@@ -300,103 +144,79 @@
 
       <textarea
         name="description"
-        placeholder="Description / Request"
+        placeholder="Description"
       ></textarea>
 
-      <div class="upload-box">
+      <div class="file-box">
 
-        <div class="upload-title">
-
+        <p style="margin-bottom:10px;">
           + Add Media / PDF / Images / Videos
-
-        </div>
+        </p>
 
         <input
           type="file"
           name="media"
-          multiple
         />
 
       </div>
 
       <button type="submit">
-
         Save Customer
-
       </button>
 
     </form>
 
-    <div class="dashboard-link">
-
-      <a href="/dashboard.html">
-
-        Dashboard
-
-      </a>
-
-    </div>
+    <a href="dashboard.html">
+      Dashboard
+    </a>
 
   </div>
 
   <script>
 
-    const form =
-      document.getElementById(
-        "customerForm"
-      );
+    const form = document.getElementById("customerForm");
 
-    form.addEventListener(
-      "submit",
-      async (e) => {
+    form.addEventListener("submit", async (e) => {
 
-        e.preventDefault();
+      e.preventDefault();
 
-        try {
+      try {
 
-          const formData =
-            new FormData(form);
+        const formData = new FormData(form);
 
-          const response =
-            await fetch(
-              "/add-customer",
-              {
-
-                method: "POST",
-
-                body: formData
-
-              }
-            );
-
-          const data =
-            await response.json();
-
-          alert(data.message);
-
-          if (
-            data.message ===
-            "Customer Saved"
-          ) {
-
-            window.location.href =
-              "/dashboard.html";
-
+        const response = await fetch(
+          "/save-customer",
+          {
+            method: "POST",
+            body: formData
           }
+        );
 
-        } catch (err) {
+        const data = await response.json();
 
-          console.log(err);
+        if(data.success){
 
-          alert("Save Error");
+          alert("Customer Saved Successfully");
+
+          window.location.href = "/dashboard.html";
+
+        }else{
+
+          alert(data.message || "Save Error");
 
         }
 
+      } catch(err){
+
+        console.log(err);
+
+        alert("Server Error");
+
       }
-    );
+
+    });
 
   </script>
 
 </body>
-
 </html>
