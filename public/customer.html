@@ -3,31 +3,31 @@
 
 <head>
 
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>Customer Form</title>
 
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-  <div class="customer-container">
+  <div class="customer-wrapper">
 
-    <div class="top-bar">
+    <div class="customer-box">
 
-      <img
-        src="logo.png"
-        class="logo"
-      />
+      <div class="customer-top">
 
-      <div class="top-buttons">
+        <img
+          src="logo.png"
+          class="auth-logo"
+        >
 
         <button
           class="logout-btn"
@@ -38,172 +38,134 @@
 
       </div>
 
+      <h1>Add Customer</h1>
+
+      <form id="customerForm">
+
+        <div class="grid-2">
+
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            required
+          >
+
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            required
+          >
+
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+          >
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+          >
+
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+          >
+
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+          >
+
+        </div>
+
+        <textarea
+          name="description"
+          placeholder="Description"
+        ></textarea>
+
+        <div class="file-upload">
+
+          <p>
+            Attach File / Image / PDF / Video
+          </p>
+
+          <input
+            type="file"
+            name="media"
+          >
+
+        </div>
+
+        <button type="submit">
+          Save Customer
+        </button>
+
+      </form>
+
+      <a href="dashboard.html">
+        Open Dashboard
+      </a>
+
     </div>
-
-    <h1>Add Customer</h1>
-
-    <form
-      id="customerForm"
-      enctype="multipart/form-data"
-    >
-
-      <div class="grid">
-
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          required
-        />
-
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          required
-        />
-
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          required
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          required
-        />
-
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-        />
-
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-        />
-
-      </div>
-
-      <textarea
-        name="description"
-        placeholder="Description"
-      ></textarea>
-
-      <div class="file-box">
-
-        <p
-          style="
-            margin-bottom:15px;
-            color:#f5d000;
-            font-size:18px;
-          "
-        >
-          Attach File / Image / PDF / Video
-        </p>
-
-        <input
-          type="file"
-          name="media"
-        />
-
-      </div>
-
-      <button type="submit">
-
-        Save Customer
-
-      </button>
-
-    </form>
-
-    <a
-      href="dashboard.html"
-      class="dashboard-link"
-    >
-      Open Dashboard
-    </a>
 
   </div>
 
   <script>
 
-    const form =
-      document.getElementById(
-        "customerForm"
-      );
-
-    form.addEventListener(
-      "submit",
-      async (e) => {
-
-        e.preventDefault();
-
-        try {
-
-          const formData =
-            new FormData(form);
-
-          const response =
-            await fetch(
-              "/save-customer",
-              {
-                method:"POST",
-                body:formData
-              }
-            );
-
-          const data =
-            await response.json();
-
-          if(data.success){
-
-            alert(
-              "Customer Saved Successfully"
-            );
-
-            form.reset();
-
-            window.location.href =
-              "dashboard.html";
-
-          } else {
-
-            alert(
-              data.message
-            );
-
-          }
-
-        } catch(err){
-
-          console.log(err);
-
-          alert(
-            "Server Error"
-          );
-
-        }
-
-      }
-    );
-
     function logout(){
 
-      localStorage.removeItem(
-        "token"
-      );
+      localStorage.clear();
 
       window.location.href =
         "login.html";
 
     }
+
+    document
+      .getElementById("customerForm")
+      .addEventListener("submit", async(e)=>{
+
+        e.preventDefault();
+
+        const form =
+          document.getElementById(
+            "customerForm"
+          );
+
+        const formData =
+          new FormData(form);
+
+        const response =
+          await fetch("/save-customer", {
+
+            method:"POST",
+
+            body:formData
+
+          });
+
+        const data =
+          await response.json();
+
+        if(data.success){
+
+          alert("Customer Saved");
+
+          form.reset();
+
+        } else {
+
+          alert("Save Error");
+
+        }
+
+      });
 
   </script>
 

@@ -2,163 +2,178 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Arial;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-  background:#111;
+  background:#161616;
   color:white;
+}
+
+/* LOGIN + REGISTER */
+
+.auth-wrapper{
+  width:100%;
   min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:30px;
 }
 
-/* =========================
-   AUTH
-========================= */
-
-.auth-container{
+.auth-box{
   width:100%;
-  max-width:450px;
-  margin:80px auto;
-  background:#1b1b1b;
-  padding:40px;
+  max-width:500px;
+  background:#1f1f1f;
   border-radius:30px;
-  border:2px solid #222;
-  text-align:center;
+  padding:50px;
+  box-shadow:0 0 30px rgba(255,215,0,0.1);
 }
 
-.logo{
+.auth-logo{
   width:100%;
-  max-width:320px;
-  margin-bottom:20px;
+  max-width:420px;
+  display:block;
+  margin:0 auto 30px auto;
 }
 
-.auth-container h1{
-  color:#f5d000;
+.auth-box h1{
+  text-align:center;
   margin-bottom:30px;
-  font-size:48px;
+  color:#ffd700;
+  font-size:45px;
 }
 
-.auth-container input{
+.auth-box input{
   width:100%;
   padding:18px;
-  margin-bottom:20px;
   border:none;
-  border-radius:14px;
-  background:#5d6068;
+  border-radius:15px;
+  background:#6b6b74;
   color:white;
+  margin-bottom:20px;
   font-size:18px;
 }
 
-.auth-container button{
+.auth-box button{
   width:100%;
   padding:18px;
   border:none;
-  border-radius:14px;
-  background:#f5d000;
+  border-radius:15px;
+  background:#ffe100;
   color:black;
   font-size:22px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.auth-container a{
+.auth-box a{
   display:block;
-  margin-top:20px;
-  color:#f5d000;
+  text-align:center;
+  margin-top:25px;
+  color:#ffd700;
   text-decoration:none;
   font-size:18px;
 }
 
-/* =========================
-   CUSTOMER FORM
-========================= */
+/* CUSTOMER */
 
-.customer-container{
+.customer-wrapper{
   width:100%;
-  max-width:1000px;
-  margin:40px auto;
-  background:#1b1b1b;
   padding:40px;
-  border-radius:30px;
-  border:2px solid #222;
 }
 
-.customer-container h1{
-  color:#f5d000;
+.customer-box{
+  max-width:1100px;
+  margin:auto;
+  background:#1f1f1f;
+  border-radius:30px;
+  padding:40px;
+}
+
+.customer-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   margin-bottom:30px;
+}
+
+.customer-box h1{
   text-align:center;
+  color:white;
+  margin-bottom:30px;
   font-size:50px;
 }
 
-.grid{
+.grid-2{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
 }
 
-.grid input{
+.customer-box input,
+.customer-box textarea{
   width:100%;
   padding:18px;
   border:none;
-  border-radius:14px;
-  background:#5d6068;
+  border-radius:15px;
+  background:#34343a;
   color:white;
   font-size:18px;
 }
 
-textarea{
-  width:100%;
+.customer-box textarea{
+  height:220px;
   margin-top:20px;
-  padding:20px;
-  border:none;
-  border-radius:14px;
-  background:#222;
-  color:white;
-  font-size:18px;
-  min-height:200px;
   resize:none;
 }
 
-.file-box{
+.file-upload{
+  background:#252525;
+  padding:25px;
+  border-radius:20px;
   margin-top:20px;
-  background:#222;
-  padding:20px;
-  border-radius:14px;
 }
 
-.customer-container button{
+.file-upload p{
+  color:#ffd700;
+  margin-bottom:15px;
+}
+
+.customer-box button{
   width:100%;
-  margin-top:20px;
-  padding:18px;
+  padding:20px;
   border:none;
-  border-radius:14px;
-  background:#f5d000;
+  border-radius:15px;
+  background:#ffe100;
   color:black;
   font-size:24px;
   font-weight:bold;
   cursor:pointer;
-}
-
-.dashboard-link{
-  display:block;
   margin-top:20px;
+}
+
+.customer-box a{
+  display:block;
   text-align:center;
-  color:#f5d000;
+  margin-top:25px;
+  color:#ffd700;
   text-decoration:none;
+  font-size:20px;
 }
 
-.signout-btn{
-  background:#ff4747 !important;
+.logout-btn{
+  width:auto !important;
+  padding:15px 25px !important;
+  background:#ff4444 !important;
   color:white !important;
+  font-size:18px !important;
 }
 
-/* =========================
-   DASHBOARD
-========================= */
+/* DASHBOARD */
 
 .dashboard-container{
-  width:95%;
-  margin:30px auto;
+  padding:30px;
 }
 
 .top-bar{
@@ -168,53 +183,45 @@ textarea{
   margin-bottom:30px;
 }
 
-.top-bar img{
-  width:300px;
-}
-
 .top-buttons{
   display:flex;
   gap:15px;
 }
 
-.top-buttons button{
-  padding:14px 24px;
+.add-btn,
+.email-btn,
+.print-btn,
+.logout-btn,
+.action-btn{
   border:none;
   border-radius:12px;
-  cursor:pointer;
-  font-size:18px;
+  padding:14px 22px;
   font-weight:bold;
+  cursor:pointer;
 }
 
 .add-btn{
-  background:#f5d000;
-  color:black;
-}
-
-.logout-btn{
-  background:#ff4747;
-  color:white;
+  background:#ffe100;
 }
 
 .email-btn{
-  background:#2196f3;
+  background:#00aa66;
   color:white;
 }
 
 .print-btn{
-  background:#16a34a;
+  background:#0077ff;
   color:white;
 }
 
 .search{
   width:100%;
   padding:18px;
-  margin-bottom:20px;
   border:none;
-  border-radius:14px;
-  background:#222;
+  border-radius:15px;
+  background:#2c2c2c;
   color:white;
-  font-size:18px;
+  margin-bottom:20px;
 }
 
 table{
@@ -225,55 +232,42 @@ table{
 }
 
 thead{
-  background:#f5d000;
+  background:#ffe100;
   color:black;
 }
 
-thead th{
-  padding:20px;
+th,
+td{
+  padding:22px;
   text-align:left;
-  font-size:20px;
 }
 
 tbody tr{
-  background:#1f1f1f;
+  background:#242424;
   border-bottom:1px solid #333;
 }
 
-tbody td{
-  padding:20px;
-  font-size:18px;
-}
-
-.action-btn{
-  padding:10px 18px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
+.view-btn{
+  background:#ffe100;
   margin-right:10px;
 }
 
-.view-btn{
-  background:#f5d000;
-}
-
 .delete-btn{
-  background:#ff4747;
+  background:#ff4444;
   color:white;
 }
 
 .customer-details{
+  background:#1f1f1f;
   margin-top:40px;
-  background:#1b1b1b;
-  padding:30px;
-  border-radius:20px;
+  padding:40px;
+  border-radius:25px;
 }
 
 .customer-details h2{
-  color:#f5d000;
+  color:#ffe100;
   margin-bottom:20px;
-  font-size:40px;
+  font-size:45px;
 }
 
 .customer-details p{
@@ -284,23 +278,27 @@ tbody td{
 .file-link{
   display:inline-block;
   margin-top:20px;
-  padding:14px 24px;
-  background:#f5d000;
+  padding:14px 20px;
+  background:#ffe100;
   color:black;
   text-decoration:none;
   border-radius:12px;
   font-weight:bold;
 }
 
-@media(max-width:768px){
+@media(max-width:900px){
 
-  .grid{
+  .grid-2{
     grid-template-columns:1fr;
   }
 
   .top-bar{
     flex-direction:column;
     gap:20px;
+  }
+
+  .top-buttons{
+    flex-wrap:wrap;
   }
 
   table{
