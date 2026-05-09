@@ -16,27 +16,27 @@ function renderTable(data) {
   // clear table before render
   table.innerHTML = "";
 
+  let rows = "";
   data.forEach((c, index) => {
-    const row = `
+    rows += `
       <tr>
         <td>${c.firstName || ""}</td>
         <td>${c.lastName || ""}</td>
         <td>${c.email || ""}</td>
         <td>${c.phone || ""}</td>
         <td>${c.city || ""}</td>
-        <td>
+          <button onclick="deleteCustomer('${c.id}')">Delete</button>
           <button onclick="deleteCustomer(${index})">Delete</button>
         </td>
       </tr>
     `;
-
-    table.innerHTML += row;
   });
+  table.innerHTML = rows;
 }
 
 // delete
-function deleteCustomer(index) {
-  fetch("/delete/" + index, {
+function deleteCustomer(id) {
+  fetch("/delete/" + id, {
     method: "DELETE"
   })
   .then(() => loadCustomers());

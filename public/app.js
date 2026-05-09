@@ -28,7 +28,7 @@ if (form) {
 
           "Content-Type": "application/json",
 
-          "Authorization": localStorage.getItem("token")
+          "Authorization": "Bearer " + localStorage.getItem("token")
 
         },
 
@@ -38,9 +38,15 @@ if (form) {
 
       await response.text();
 
-      alert("Customer saved successfully");
-
-      form.reset();
+      if (response.ok) {
+        alert("Customer saved successfully");
+        form.reset();
+      } else {
+        alert("Error saving customer");
+      }
+      } else {
+        alert("Error saving customer: " + result);
+      }
 
     } catch (error) {
 
