@@ -1,36 +1,51 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("./models/User");
-const Customer = require("./models/Customer");
-
-require("dotenv").config();
-
 const mongoose = require("mongoose");
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
 
-const app = express();
-const PORT = 3000;
+require("dotenv").config();
 
+const User = require("./models/User");
+const Customer = require("./models/Customer");
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+
+// =========================
 // MONGODB CONNECT
+// =========================
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
+
+// =========================
+// MIDDLEWARE
+// =========================
+
 app.use(express.json());
-app.use(express.static("public"));
+
+app.use(express.static(path.join(__dirname, "public")));
+
+
+// =========================
+// HOME PAGE
+// =========================
+
 app.get("/", (req, res) => {
-  res.redirect("/login.html");
-});
-app.get("/", (req, res) => {
-  res.redirect("/login.html");
+  res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
-const dataFile = path.join(__dirname, "public", "data.json");
 
-
+// =========================
 // REGISTER USER
+// =========================
+
 app.post("/register", async (req, res) => {
 
   try {
@@ -50,11 +65,9 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
-
       name,
       email,
       password: hashedPassword
-
     });
 
     await user.save();
@@ -76,7 +89,10 @@ app.post("/register", async (req, res) => {
 });
 
 
+// =========================
 // LOGIN USER
+// =========================
+
 app.post("/login", async (req, res) => {
 
   try {
@@ -84,8 +100,6 @@ app.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-
-    console.log(user);
 
     if (!user) {
 
@@ -111,10 +125,8 @@ app.post("/login", async (req, res) => {
     );
 
     res.json({
-
       message: "Login Success",
       token
-
     });
 
   } catch (err) {
@@ -130,7 +142,10 @@ app.post("/login", async (req, res) => {
 });
 
 
+// =========================
 // SAVE CUSTOMER
+// =========================
+
 app.post("/save", async (req, res) => {
 
   try {
@@ -168,7 +183,10 @@ app.post("/save", async (req, res) => {
 });
 
 
+// =========================
 // GET CUSTOMERS
+// =========================
+
 app.get("/customers", async (req, res) => {
 
   try {
@@ -188,7 +206,12 @@ app.get("/customers", async (req, res) => {
 });
 
 
+// =========================
 // DELETE CUSTOMER
+// =========================
+
+const dataFile = path.join(__dirname, "public", "data.json");
+
 app.delete("/delete/:index", (req, res) => {
 
   let data = JSON.parse(fs.readFileSync(dataFile));
@@ -204,9 +227,12 @@ app.delete("/delete/:index", (req, res) => {
 });
 
 
+// =========================
 // START SERVER
+// =========================
+
 app.listen(PORT, () => {
 
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 
 });
