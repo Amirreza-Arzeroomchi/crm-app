@@ -31,11 +31,17 @@ app.use(express.static(path.join(__dirname, "public")));
 // ======================================
 
 mongoose.connect(process.env.MONGO_URI)
+
 .then(() => {
+
   console.log("MongoDB Connected");
+
 })
+
 .catch((err) => {
+
   console.log("MongoDB Error:", err);
+
 });
 
 
@@ -58,14 +64,28 @@ app.post("/register", async (req, res) => {
 
   try {
 
+    console.log(req.body);
+
     const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+
+      return res.status(400).json({
+
+        message: "All fields are required"
+
+      });
+
+    }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
 
       return res.status(400).json({
+
         message: "Email Already Exists"
+
       });
 
     }
@@ -90,7 +110,7 @@ app.post("/register", async (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.log("REGISTER ERROR:", err);
 
     res.status(500).json({
 
@@ -112,6 +132,16 @@ app.post("/login", async (req, res) => {
   try {
 
     const { email, password } = req.body;
+
+    if (!email || !password) {
+
+      return res.status(400).json({
+
+        message: "Email and Password required"
+
+      });
+
+    }
 
     const user = await User.findOne({ email });
 
@@ -157,7 +187,7 @@ app.post("/login", async (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.log("LOGIN ERROR:", err);
 
     res.status(500).json({
 
@@ -178,13 +208,15 @@ app.post("/save", async (req, res) => {
 
   try {
 
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader) {
 
       return res.status(401).send("No Token");
 
     }
+
+    const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(token, "secretkey");
 
@@ -202,7 +234,7 @@ app.post("/save", async (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.log("SAVE ERROR:", err);
 
     res.status(500).send("Error Saving Customer");
 
@@ -225,7 +257,7 @@ app.get("/customers", async (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.log("FETCH ERROR:", err);
 
     res.status(500).send("Error Fetching Customers");
 
@@ -256,7 +288,7 @@ app.delete("/delete/:index", (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.log("DELETE ERROR:", err);
 
     res.status(500).send("Delete Error");
 
