@@ -130,17 +130,7 @@
 </div>
 
   </div>
-function closeCustomerDetails(){
 
-  const details =
-    document.getElementById(
-      "customerDetails"
-    );
-
-  details.style.display =
-    "none";
-
-}
   <script>
 
     let customers = [];
@@ -584,8 +574,21 @@ function closeCustomerDetails(){
 
     loadCustomers();
 
-  </script>
+  <script>
+
+function closeCustomerDetails(){
+
+  const details =
+    document.getElementById(
+      "customerDetails"
+    );
+
+  details.style.display =
+    "none";
+
+}
+
+</script>
 
 </body>
-
 </html>
