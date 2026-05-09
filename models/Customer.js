@@ -16,28 +16,20 @@ const customerSchema = new mongoose.Schema({
 
   description: String,
 
-  files: [
+  media: [String],
 
-    {
-      fileName: String,
-      filePath: String,
-      fileType: String
-    }
-
-  ],
-
-  createdAt: {
-
-    type: Date,
-
-    default: Date.now
-
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }
+
+}, {
+
+  timestamps: true
 
 });
 
-module.exports =
-mongoose.model(
+module.exports = mongoose.model(
   "Customer",
   customerSchema
 );
