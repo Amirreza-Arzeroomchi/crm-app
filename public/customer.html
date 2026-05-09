@@ -5,11 +5,17 @@
 
   <meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Customer Form</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
 </head>
 
@@ -17,48 +23,129 @@
 
   <div class="customer-container">
 
-    <img src="logo.png" class="logo">
+    <!-- LOGO -->
 
-    <form id="customerForm" class="customer-form">
+    <img
+      src="logo.png"
+      class="logo"
+    >
+
+    <!-- FORM -->
+
+    <form
+      id="customerForm"
+      class="customer-form"
+    >
+
+      <h1 class="form-title">
+        Add Customer
+      </h1>
+
+      <!-- ROW 1 -->
 
       <div class="row">
 
-        <input type="text" id="firstName" placeholder="First Name *" required>
+        <input
+          type="text"
+          id="firstName"
+          placeholder="First Name *"
+          required
+        >
 
-        <input type="text" id="lastName" placeholder="Last Name *" required>
+        <input
+          type="text"
+          id="lastName"
+          placeholder="Last Name *"
+          required
+        >
 
       </div>
+
+      <!-- ROW 2 -->
 
       <div class="row">
 
-        <input type="text" id="phone" placeholder="Phone *" required>
+        <input
+          type="text"
+          id="phone"
+          placeholder="Phone *"
+          required
+        >
 
-        <input type="email" id="email" placeholder="Email *" required>
+        <input
+          type="email"
+          id="email"
+          placeholder="Email *"
+          required
+        >
 
       </div>
+
+      <!-- ROW 3 -->
 
       <div class="row">
 
-        <input type="text" id="address" placeholder="Address">
+        <input
+          type="text"
+          id="address"
+          placeholder="Address"
+        >
 
-        <input type="text" id="city" placeholder="City *" required>
+        <input
+          type="text"
+          id="city"
+          placeholder="City *"
+          required
+        >
 
       </div>
+
+      <!-- DESCRIPTION -->
 
       <textarea
         id="description"
-        placeholder="Description / Request"
+        placeholder="Description / Notes / Request"
       ></textarea>
 
-      <button type="submit">
-        Save Customer
-      </button>
+      <!-- FILE UPLOAD -->
+
+      <div class="upload-box">
+
+        <label class="upload-label">
+
+          + Add Media / PDF / Images / Videos
+
+        </label>
+
+        <input
+          type="file"
+          id="files"
+          multiple
+        >
+
+      </div>
+
+      <!-- BUTTONS -->
+
+      <div class="button-row">
+
+        <button
+          type="submit"
+          class="save-btn"
+        >
+          Save Customer
+        </button>
+
+        <a
+          href="/dashboard.html"
+          class="dashboard-btn"
+        >
+          Dashboard
+        </a>
+
+      </div>
 
     </form>
-
-    <a href="/dashboard.html" class="dashboard-link">
-      Go To Dashboard
-    </a>
 
   </div>
 

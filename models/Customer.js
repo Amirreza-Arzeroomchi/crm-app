@@ -2,75 +2,42 @@ const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
 
-  firstName: {
+  firstName: String,
 
-    type:String,
+  lastName: String,
 
-    trim:true
+  phone: String,
 
-  },
+  email: String,
 
-  lastName: {
+  address: String,
 
-    type:String,
+  city: String,
 
-    trim:true
+  description: String,
 
-  },
+  files: [
 
-  phone: {
+    {
+      fileName: String,
+      filePath: String,
+      fileType: String
+    }
 
-    type:String,
+  ],
 
-    trim:true
+  createdAt: {
 
-  },
+    type: Date,
 
-  email: {
-
-    type:String,
-
-    lowercase:true,
-
-    trim:true
-
-  },
-
-  address: {
-
-    type:String,
-
-    trim:true
-
-  },
-
-  city: {
-
-    type:String,
-
-    trim:true
-
-  },
-
-  description: {
-
-    type:String,
-
-    trim:true
-
-  },
-
-  userId: {
-
-    type:mongoose.Schema.Types.ObjectId,
-
-    ref:"User"
+    default: Date.now
 
   }
 
-},{
-  timestamps:true
 });
 
 module.exports =
-mongoose.model("Customer", customerSchema);
+mongoose.model(
+  "Customer",
+  customerSchema
+);
