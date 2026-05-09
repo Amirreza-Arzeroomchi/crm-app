@@ -1,85 +1,6 @@
-// ======================================
-// SAVE CUSTOMER
-// ======================================
-
-const form = document.getElementById("customerForm");
-
-if(form){
-
-  form.addEventListener("submit", async (e) => {
-
-    e.preventDefault();
-
-    const customer = {
-
-      firstName: document.getElementById("firstName").value,
-
-      lastName: document.getElementById("lastName").value,
-
-      phone: document.getElementById("phone").value,
-
-      email: document.getElementById("email").value,
-
-      address: document.getElementById("address").value,
-
-      city: document.getElementById("city").value,
-
-      description: document.getElementById("description").value
-
-    };
-
-    try{
-
-      const response = await fetch("/save", {
-
-        method:"POST",
-
-        headers:{
-
-          "Content-Type":"application/json",
-
-          "Authorization":"Bearer " + localStorage.getItem("token")
-
-        },
-
-        body:JSON.stringify(customer)
-
-      });
-
-      const result = await response.text();
-
-      if(response.ok){
-
-        alert("Customer Saved Successfully");
-
-        form.reset();
-
-      }else{
-
-        alert(result);
-
-      }
-
-    }catch(error){
-
-      console.log(error);
-
-      alert("Error Saving Customer");
-
-    }
-
-  });
-
-}
-
-
-// ======================================
-// LOGIN USER
-// ======================================
-
 const loginForm = document.getElementById("loginForm");
 
-if(loginForm){
+if (loginForm) {
 
   loginForm.addEventListener("submit", async (e) => {
 
@@ -89,42 +10,41 @@ if(loginForm){
 
     const password = document.getElementById("loginPassword").value;
 
-    try{
+    try {
 
       const response = await fetch("/login", {
 
-        method:"POST",
+        method: "POST",
 
-        headers:{
-          "Content-Type":"application/json"
+        headers: {
+          "Content-Type": "application/json"
         },
 
-        body:JSON.stringify({
-
+        body: JSON.stringify({
           email,
           password
-
         })
 
       });
 
       const data = await response.json();
 
-      if(response.ok){
+      if (response.ok) {
 
         localStorage.setItem("token", data.token);
 
         alert("Login Success");
 
-        window.location.href = "/dashboard.html";
+        // redirect to customer page
+        window.location.href = "/customer.html";
 
-      }else{
+      } else {
 
         alert(data.message);
 
       }
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err);
 
