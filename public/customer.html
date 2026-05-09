@@ -61,16 +61,21 @@
           >
 
           <input
-            type="text"
-            name="phone"
-            placeholder="Phone"
-          >
+  type="tel"
+  name="phone"
+  placeholder="Phone"
+  pattern="[0-9+\-\s()]{7,20}"
+  required
+  title="Enter valid phone number"
+/>
 
           <input
-            type="email"
-            name="email"
-            placeholder="Email"
-          >
+  type="email"
+  name="email"
+  placeholder="Email"
+  required
+  title="Enter valid email"
+/>
 
           <input
             type="text"
@@ -78,11 +83,14 @@
             placeholder="Address"
           >
 
-          <input
-            type="text"
-            name="city"
-            placeholder="City"
-          >
+         <input
+  type="text"
+  name="city"
+  placeholder="City"
+  pattern="[A-Za-z\s]{2,}"
+  required
+  title="Enter valid city name"
+/>
 
         </div>
 
