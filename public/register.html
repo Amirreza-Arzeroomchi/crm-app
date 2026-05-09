@@ -1,53 +1,167 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
 
-async function register() {
+<head>
 
-  const user = {
+  <meta charset="UTF-8">
 
-    name: document.getElementById("name").value,
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    email: document.getElementById("email").value,
+  <title>Register</title>
 
-    password: document.getElementById("password").value
+  <link rel="manifest" href="/manifest.json">
 
-  };
+  <link rel="apple-touch-icon" href="/icon-512x512.png">
 
-  try {
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-    const response = await fetch("/register", {
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-      method: "POST",
+  <style>
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+    body{
+      margin:0;
+      background:#0f0f0f;
+      font-family:Arial, sans-serif;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      color:white;
+    }
 
-      body: JSON.stringify(user)
+    .box{
+      width:400px;
+      background:#1b1b1b;
+      padding:40px;
+      border-radius:20px;
+      box-shadow:0 0 30px rgba(255,215,0,0.2);
+    }
 
-    });
+    h1{
+      text-align:center;
+      color:gold;
+      margin-bottom:30px;
+    }
 
-    const data = await response.json();
+    input{
+      width:100%;
+      padding:15px;
+      margin-bottom:15px;
+      border:none;
+      border-radius:10px;
+      background:#2b2b2b;
+      color:white;
+      font-size:16px;
+      box-sizing:border-box;
+    }
 
-    if(response.ok){
+    button{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:10px;
+      background:gold;
+      color:black;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-      alert(data.message);
+    button:hover{
+      opacity:.9;
+    }
 
-      window.location.href = "/login.html";
+    .back-btn{
+      position:absolute;
+      top:30px;
+      left:30px;
+      color:gold;
+      text-decoration:none;
+      font-size:18px;
+      font-weight:bold;
+    }
 
-    } else {
+    .back-btn:hover{
+      opacity:.8;
+    }
 
-      alert(data.message);
+  </style>
+
+</head>
+
+<body>
+
+  <a href="/login.html" class="back-btn">
+    ← Back to Login
+  </a>
+
+  <div class="box">
+
+    <h1>Create Account</h1>
+
+    <input type="text" id="name" placeholder="Name">
+
+    <input type="email" id="email" placeholder="Email">
+
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="register()">
+      Register
+    </button>
+
+  </div>
+
+  <script>
+
+    async function register() {
+
+      const user = {
+
+        name: document.getElementById("name").value,
+
+        email: document.getElementById("email").value,
+
+        password: document.getElementById("password").value
+
+      };
+
+      try {
+
+        const response = await fetch("/register", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify(user)
+
+        });
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        if(response.ok){
+
+          window.location.href = "/login.html";
+
+        }
+
+      } catch (err) {
+
+        console.log(err);
+
+        alert("Register Error");
+
+      }
 
     }
 
-  } catch (err) {
+  </script>
 
-    console.log(err);
+</body>
 
-    alert("Register Error");
-
-  }
-
-}
-
-</script>
+</html>
