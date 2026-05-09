@@ -1,54 +1,72 @@
-const loginForm = document.getElementById("loginForm");
+const form = document.getElementById("customerForm");
 
-if (loginForm) {
+if(form){
 
-  loginForm.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    const email = document.getElementById("loginEmail").value;
+    const customer = {
 
-    const password = document.getElementById("loginPassword").value;
+      firstName:
+        document.getElementById("firstName").value,
+
+      lastName:
+        document.getElementById("lastName").value,
+
+      phone:
+        document.getElementById("phone").value,
+
+      email:
+        document.getElementById("email").value,
+
+      address:
+        document.getElementById("address").value,
+
+      city:
+        document.getElementById("city").value,
+
+      description:
+        document.getElementById("description").value
+
+    };
 
     try {
 
-      const response = await fetch("/login", {
+      const response = await fetch("/save", {
 
-        method: "POST",
+        method:"POST",
 
-        headers: {
-          "Content-Type": "application/json"
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":
+            "Bearer " +
+            localStorage.getItem("token")
         },
 
-        body: JSON.stringify({
-          email,
-          password
-        })
+        body: JSON.stringify(customer)
 
       });
 
-      const data = await response.json();
+      const result = await response.text();
 
-      if (response.ok) {
+      if(response.ok){
 
-        localStorage.setItem("token", data.token);
+        alert("Customer Saved");
 
-        alert("Login Success");
-
-        // redirect to customer page
-        window.location.href = "/customer.html";
+        form.reset();
 
       } else {
 
-        alert(data.message);
+        alert(result);
 
       }
 
-    } catch (err) {
+    } catch(err){
 
       console.log(err);
 
-      alert("Login Error");
+      alert("Save Error");
 
     }
 
