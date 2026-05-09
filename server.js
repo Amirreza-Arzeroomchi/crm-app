@@ -1,25 +1,42 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-require("dotenv").config();
+
+const User = require("./models/User");
+const Customer = require("./models/Customer");
 
 const app = express();
 
+const PORT = process.env.PORT || 10000;
+
+/* =========================================
+   CREATE UPLOADS FOLDER
+========================================= */
+
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
+
+/* =========================================
+   MIDDLEWARE
+========================================= */
+
 app.use(cors());
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "public/uploads"))
-);
-
-const PORT = process.env.PORT || 10000;
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* =========================================
    MONGODB
@@ -35,232 +52,149 @@ mongoose
   });
 
 /* =========================================
-   USER MODEL
-========================================= */
-
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String
-});
-
-const User = mongoose.model("User", userSchema);
-
-/* =========================================
-   CUSTOMER MODEL
-========================================= */
-
-const customerSchema = new mongoose.Schema({
-
-  firstName: String,
-
-  lastName: String,
-
-  phone: String,
-
-  email: String,
-
-  address: String,
-
-  city: String,
-
-  description: String,
-
-  media: [String]
-
-});
-
-const Customer = mongoose.model(
-  "Customer",
-  customerSchema
-);
-
-/* =========================================
    MULTER
 ========================================= */
 
-if (!fs.existsSync("./public/uploads")) {
-
-  fs.mkdirSync(
-    "./public/uploads",
-    { recursive: true }
-  );
-
-}
-
 const storage = multer.diskStorage({
-
-  destination: (req, file, cb) => {
-
-    cb(null, "./public/uploads");
-
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
   },
 
-  filename: (req, file, cb) => {
-
-    cb(
-      null,
-      Date.now() + "-" + file.originalname
-    );
-
-  }
-
+  filename: function (req, file, cb) {
+    const uniqueName = Date.now() + "-" + file.originalname;
+    cb(null, uniqueName);
+  },
 });
 
-const upload = multer({
-  storage
-});
+const upload = multer({ storage });
 
 /* =========================================
-   REGISTER
+   AUTH
 ========================================= */
 
 app.post("/register", async (req, res) => {
-
   try {
+    const { email, password } = req.body;
 
-    const {
-      email,
-      password
-    } = req.body;
-
-    const existingUser =
-      await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-
       return res.status(400).json({
-        message: "User already exists"
+        message: "User already exists",
       });
-
     }
 
-    const user =
-      new User({
-        email,
-        password
-      });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      email,
+      password: hashedPassword,
+    });
 
     await user.save();
 
     res.json({
-      message: "Registered Successfully"
+      message: "Registered Successfully",
     });
-
   } catch (err) {
-
     console.log(err);
 
     res.status(500).json({
-      message: "Register Error"
+      message: "Register Error",
     });
-
   }
-
 });
-
-/* =========================================
-   LOGIN
-========================================= */
 
 app.post("/login", async (req, res) => {
-
   try {
+    const { email, password } = req.body;
 
-    const {
-      email,
-      password
-    } = req.body;
-
-    const user =
-      await User.findOne({
-        email,
-        password
-      });
+    const user = await User.findOne({ email });
 
     if (!user) {
-
       return res.status(400).json({
-        message: "Invalid Credentials"
+        message: "Invalid Credentials",
       });
-
     }
 
+    const validPassword = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!validPassword) {
+      return res.status(400).json({
+        message: "Invalid Credentials",
+      });
+    }
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET
+    );
+
     res.json({
-      message: "Login Success"
+      token,
+      message: "Login Success",
     });
-
   } catch (err) {
-
     console.log(err);
 
     res.status(500).json({
-      message: "Login Error"
+      message: "Login Error",
     });
-
   }
-
 });
 
 /* =========================================
-   ADD CUSTOMER
+   SAVE CUSTOMER
 ========================================= */
 
 app.post(
-  "/add-customer",
-  upload.array("media"),
+  "/save-customer",
+  upload.single("media"),
   async (req, res) => {
-
     try {
-
       const {
-
         firstName,
         lastName,
         phone,
         email,
         address,
         city,
-        description
-
+        description,
       } = req.body;
 
-      const media =
-        req.files?.map(file => {
+      let mediaPath = "";
 
-          return "/uploads/" + file.filename;
+      if (req.file) {
+        mediaPath = "/uploads/" + req.file.filename;
+      }
 
-        }) || [];
-
-      const customer =
-        new Customer({
-
-          firstName,
-          lastName,
-          phone,
-          email,
-          address,
-          city,
-          description,
-          media
-
-        });
+      const customer = new Customer({
+        firstName,
+        lastName,
+        phone,
+        email,
+        address,
+        city,
+        description,
+        media: mediaPath,
+      });
 
       await customer.save();
 
       res.json({
-        message: "Customer Saved"
+        success: true,
+        message: "Customer Saved",
       });
-
     } catch (err) {
-
       console.log(err);
 
       res.status(500).json({
-        message: "Save Error"
+        message: "Save Error",
       });
-
     }
-
   }
 );
 
@@ -269,72 +203,75 @@ app.post(
 ========================================= */
 
 app.get("/customers", async (req, res) => {
-
   try {
-
-    const customers =
-      await Customer.find().sort({
-        _id: -1
-      });
+    const customers = await Customer.find().sort({
+      createdAt: -1,
+    });
 
     res.json(customers);
-
   } catch (err) {
-
     console.log(err);
 
     res.status(500).json({
-      message: "Fetch Error"
+      message: "Fetch Error",
     });
-
   }
-
 });
 
 /* =========================================
    DELETE CUSTOMER
 ========================================= */
 
-app.delete(
-  "/delete-customer/:id",
-  async (req, res) => {
+app.delete("/customer/:id", async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
 
-    try {
-
-      await Customer.findByIdAndDelete(
-        req.params.id
-      );
-
-      res.json({
-        message: "Deleted"
+    if (!customer) {
+      return res.status(404).json({
+        message: "Customer not found",
       });
-
-    } catch (err) {
-
-      console.log(err);
-
-      res.status(500).json({
-        message: "Delete Error"
-      });
-
     }
 
+    if (customer.media) {
+      const filePath = path.join(
+        __dirname,
+        customer.media
+      );
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    await Customer.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Customer Deleted",
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      message: "Delete Error",
+    });
   }
-);
+});
 
 /* =========================================
-   HOME
+   DEFAULT ROUTES
 ========================================= */
 
 app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/login.html"));
+});
 
-  res.sendFile(
-    path.join(
-      __dirname,
-      "public/login.html"
-    )
-  );
+/* =========================================
+   404
+========================================= */
 
+app.use((req, res) => {
+  res.status(404).send("Page Not Found");
 });
 
 /* =========================================
@@ -342,9 +279,5 @@ app.get("/", (req, res) => {
 ========================================= */
 
 app.listen(PORT, () => {
-
-  console.log(
-    `Server running on port ${PORT}`
-  );
-
+  console.log(`Server running on port ${PORT}`);
 });
