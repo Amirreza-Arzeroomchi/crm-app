@@ -97,13 +97,50 @@
     </table>
 
     <div
-      id="customerDetails"
-      class="customer-details"
-      style="display:none;"
-    ></div>
+  id="customerDetails"
+  class="customer-details"
+  style="display:none;"
+>
+
+  <div
+    style="
+      display:flex;
+      justify-content:flex-end;
+      margin-bottom:20px;
+    "
+  >
+
+    <button
+      onclick="closeCustomerDetails()"
+      style="
+        background:#ff4040;
+        color:white;
+        border:none;
+        padding:12px 20px;
+        border-radius:10px;
+        cursor:pointer;
+        font-weight:bold;
+      "
+    >
+      Close
+    </button>
 
   </div>
 
+</div>
+
+  </div>
+function closeCustomerDetails(){
+
+  const details =
+    document.getElementById(
+      "customerDetails"
+    );
+
+  details.style.display =
+    "none";
+
+}
   <script>
 
     let customers = [];
@@ -283,7 +320,7 @@
           "customerDetails"
         );
 
-      details.innerHTML = `
+      details.innerHTML += `
 
         <h2>
 
