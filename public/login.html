@@ -1,212 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
 
-  <style>
-
-    * {
-
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-
-    }
-
-    body {
-
-      background: #1d1d1d;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-    }
-
-    .login-box {
-
-      width: 400px;
-      background: #2a2a2a;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255,215,0,0.15);
-
-    }
-
-    .logo {
-
-      width: 100%;
-      margin-bottom: 30px;
-
-    }
-
-    h1 {
-
-      color: #ffd700;
-      text-align: center;
-      margin-bottom: 30px;
-
-    }
-
-    input {
-
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 12px;
-      background: #3a3a3a;
-      color: white;
-      font-size: 15px;
-
-    }
-
-    button {
-
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: #ffd700;
-      color: black;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-
-    }
-
-    button:hover {
-
-      opacity: 0.9;
-
-    }
-
-    .register-link {
-
-      text-align: center;
-      margin-top: 20px;
-
-    }
-
-    .register-link a {
-
-      color: #ffd700;
-      text-decoration: none;
-
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css"/>
 
 </head>
 
 <body>
 
-  <div class="login-box">
+  <div class="auth-container">
 
-    <img src="logo.png" class="logo" />
+    <img
+      src="logo.png"
+      class="logo"
+    />
 
     <h1>Login</h1>
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Email"
-    />
+    <form id="loginForm">
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Password"
-    />
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        required
+      />
 
-    <button onclick="login()">
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+      />
 
-      Login
+      <button type="submit">
+        Login
+      </button>
 
-    </button>
+    </form>
 
-    <div class="register-link">
-
-      <a href="register.html">
-
-        Create Account
-
-      </a>
-
-    </div>
+    <a href="register.html">
+      Create Account
+    </a>
 
   </div>
 
   <script>
 
-    async function login() {
+    const loginForm =
+      document.getElementById(
+        "loginForm"
+      );
 
-      try {
+    loginForm.addEventListener(
+      "submit",
+      async (e) => {
+
+        e.preventDefault();
 
         const email =
-          document.getElementById("email").value;
+          document.getElementById(
+            "email"
+          ).value;
 
         const password =
-          document.getElementById("password").value;
+          document.getElementById(
+            "password"
+          ).value;
 
-        const response = await fetch("/login", {
+        try {
 
-          method: "POST",
+          const response =
+            await fetch("/login", {
 
-          headers: {
+              method: "POST",
 
-            "Content-Type":
-              "application/json"
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
 
-          },
+              body: JSON.stringify({
+                email,
+                password,
+              }),
+            });
 
-          body: JSON.stringify({
+          const data =
+            await response.json();
 
-            email,
-            password
+          if (data.success) {
 
-          })
+            localStorage.setItem(
+              "token",
+              data.token
+            );
 
-        });
+            window.location.href =
+              "dashboard.html";
 
-        const data =
-          await response.json();
+          } else {
 
-        if (response.ok) {
+            alert(
+              data.message
+            );
 
-          localStorage.setItem(
-            "token",
-            data.token
-          );
+          }
 
-          window.location.href =
-            "/dashboard.html";
+        } catch (err) {
 
-        } else {
+          console.log(err);
 
-          alert(data.message);
+          alert("Server Error");
 
         }
 
-      } catch (err) {
-
-        console.log(err);
-
-        alert("Login Error");
-
       }
-
-    }
+    );
 
   </script>
 
 </body>
-
 </html>

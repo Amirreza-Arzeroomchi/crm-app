@@ -1,102 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta charset="UTF-8"/>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <title>Customer Form</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial;
-    }
+  <link rel="stylesheet" href="style.css"/>
 
-    body{
-      background:#111;
-      color:white;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:40px;
-    }
-
-    .container{
-      width:100%;
-      max-width:900px;
-      background:#1b1b1b;
-      padding:40px;
-      border-radius:25px;
-      border:2px solid #222;
-    }
-
-    h1{
-      color:#f5d000;
-      margin-bottom:30px;
-      text-align:center;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
-
-    input, textarea{
-      width:100%;
-      padding:18px;
-      border:none;
-      border-radius:14px;
-      background:#5d6068;
-      color:white;
-      font-size:18px;
-    }
-
-    textarea{
-      margin-top:20px;
-      resize:none;
-      height:180px;
-    }
-
-    .file-box{
-      margin-top:20px;
-      background:#222;
-      padding:20px;
-      border-radius:14px;
-    }
-
-    button{
-      width:100%;
-      margin-top:20px;
-      padding:18px;
-      border:none;
-      border-radius:14px;
-      background:#f5d000;
-      color:black;
-      font-size:24px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    a{
-      color:#f5d000;
-      text-decoration:none;
-      display:block;
-      margin-top:20px;
-      text-align:center;
-    }
-  </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="customer-container">
+
+    <div class="top-bar">
+
+      <img
+        src="logo.png"
+        class="logo"
+      />
+
+      <div class="top-buttons">
+
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </div>
 
     <h1>Add Customer</h1>
 
-    <form id="customerForm">
+    <form
+      id="customerForm"
+      enctype="multipart/form-data"
+    >
 
       <div class="grid">
 
@@ -149,8 +98,14 @@
 
       <div class="file-box">
 
-        <p style="margin-bottom:10px;">
-          + Add Media / PDF / Images / Videos
+        <p
+          style="
+            margin-bottom:15px;
+            color:#f5d000;
+            font-size:18px;
+          "
+        >
+          Attach File / Image / PDF / Video
         </p>
 
         <input
@@ -161,62 +116,97 @@
       </div>
 
       <button type="submit">
+
         Save Customer
+
       </button>
 
     </form>
 
-    <a href="dashboard.html">
-      Dashboard
+    <a
+      href="dashboard.html"
+      class="dashboard-link"
+    >
+      Open Dashboard
     </a>
 
   </div>
 
   <script>
 
-    const form = document.getElementById("customerForm");
+    const form =
+      document.getElementById(
+        "customerForm"
+      );
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener(
+      "submit",
+      async (e) => {
 
-      e.preventDefault();
+        e.preventDefault();
 
-      try {
+        try {
 
-        const formData = new FormData(form);
+          const formData =
+            new FormData(form);
 
-        const response = await fetch(
-          "/save-customer",
-          {
-            method: "POST",
-            body: formData
+          const response =
+            await fetch(
+              "/save-customer",
+              {
+                method:"POST",
+                body:formData
+              }
+            );
+
+          const data =
+            await response.json();
+
+          if(data.success){
+
+            alert(
+              "Customer Saved Successfully"
+            );
+
+            form.reset();
+
+            window.location.href =
+              "dashboard.html";
+
+          } else {
+
+            alert(
+              data.message
+            );
+
           }
-        );
 
-        const data = await response.json();
+        } catch(err){
 
-        if(data.success){
+          console.log(err);
 
-          alert("Customer Saved Successfully");
-
-          window.location.href = "/dashboard.html";
-
-        }else{
-
-          alert(data.message || "Save Error");
+          alert(
+            "Server Error"
+          );
 
         }
 
-      } catch(err){
-
-        console.log(err);
-
-        alert("Server Error");
-
       }
+    );
 
-    });
+    function logout(){
+
+      localStorage.removeItem(
+        "token"
+      );
+
+      window.location.href =
+        "login.html";
+
+    }
 
   </script>
 
 </body>
+
 </html>

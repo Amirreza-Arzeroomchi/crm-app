@@ -1,167 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8"/>
 
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <title>Register</title>
 
-  <link rel="manifest" href="/manifest.json">
-
-  <link rel="apple-touch-icon" href="/icon-512x512.png">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <style>
-
-    body{
-      margin:0;
-      background:#0f0f0f;
-      font-family:Arial, sans-serif;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      color:white;
-    }
-
-    .box{
-      width:400px;
-      background:#1b1b1b;
-      padding:40px;
-      border-radius:20px;
-      box-shadow:0 0 30px rgba(255,215,0,0.2);
-    }
-
-    h1{
-      text-align:center;
-      color:gold;
-      margin-bottom:30px;
-    }
-
-    input{
-      width:100%;
-      padding:15px;
-      margin-bottom:15px;
-      border:none;
-      border-radius:10px;
-      background:#2b2b2b;
-      color:white;
-      font-size:16px;
-      box-sizing:border-box;
-    }
-
-    button{
-      width:100%;
-      padding:15px;
-      border:none;
-      border-radius:10px;
-      background:gold;
-      color:black;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    button:hover{
-      opacity:.9;
-    }
-
-    .back-btn{
-      position:absolute;
-      top:30px;
-      left:30px;
-      color:gold;
-      text-decoration:none;
-      font-size:18px;
-      font-weight:bold;
-    }
-
-    .back-btn:hover{
-      opacity:.8;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css"/>
 
 </head>
 
 <body>
 
-  <a href="/login.html" class="back-btn">
-    ← Back to Login
-  </a>
+  <div class="auth-container">
 
-  <div class="box">
+    <img
+      src="logo.png"
+      class="logo"
+    />
 
     <h1>Create Account</h1>
 
-    <input type="text" id="name" placeholder="Name">
+    <form id="registerForm">
 
-    <input type="email" id="email" placeholder="Email">
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        required
+      />
 
-    <input type="password" id="password" placeholder="Password">
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+      />
 
-    <button onclick="register()">
-      Register
-    </button>
+      <button type="submit">
+        Register
+      </button>
+
+    </form>
+
+    <a href="login.html">
+      Back To Login
+    </a>
 
   </div>
 
   <script>
 
-    async function register() {
+    const registerForm =
+      document.getElementById(
+        "registerForm"
+      );
 
-      const user = {
+    registerForm.addEventListener(
+      "submit",
+      async (e) => {
 
-        name: document.getElementById("name").value,
+        e.preventDefault();
 
-        email: document.getElementById("email").value,
+        const email =
+          document.getElementById(
+            "email"
+          ).value;
 
-        password: document.getElementById("password").value
+        const password =
+          document.getElementById(
+            "password"
+          ).value;
 
-      };
+        try {
 
-      try {
+          const response =
+            await fetch("/register", {
 
-        const response = await fetch("/register", {
+              method: "POST",
 
-          method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+              body: JSON.stringify({
+                email,
+                password,
+              }),
+            });
 
-          body: JSON.stringify(user)
+          const data =
+            await response.json();
 
-        });
+          if (data.success) {
 
-        const data = await response.json();
+            alert(
+              "Registered Successfully"
+            );
 
-        alert(data.message);
+            window.location.href =
+              "login.html";
 
-        if(response.ok){
+          } else {
 
-          window.location.href = "/login.html";
+            alert(
+              data.message
+            );
+
+          }
+
+        } catch (err) {
+
+          console.log(err);
+
+          alert("Server Error");
 
         }
 
-      } catch (err) {
-
-        console.log(err);
-
-        alert("Register Error");
-
       }
-
-    }
+    );
 
   </script>
 
 </body>
-
 </html>
