@@ -8,7 +8,7 @@ const path = require("path");
 require("dotenv").config();
 
 const User = require("./models/User");
-const Customer = require("./models/customer");
+const Customer = require("./models/Customer");
 
 const app = express();
 
