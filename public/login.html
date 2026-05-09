@@ -3,67 +3,209 @@
 
 <head>
 
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Login</title>
 
-  <link rel="manifest" href="/manifest.json">
+  <style>
 
-  <link rel="apple-touch-icon" href="/logo.png">
+    * {
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
 
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    }
 
-  <link rel="stylesheet" href="/style.css">
+    body {
+
+      background: #1d1d1d;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .login-box {
+
+      width: 400px;
+      background: #2a2a2a;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255,215,0,0.15);
+
+    }
+
+    .logo {
+
+      width: 100%;
+      margin-bottom: 30px;
+
+    }
+
+    h1 {
+
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 30px;
+
+    }
+
+    input {
+
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 12px;
+      background: #3a3a3a;
+      color: white;
+      font-size: 15px;
+
+    }
+
+    button {
+
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #ffd700;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+
+    }
+
+    button:hover {
+
+      opacity: 0.9;
+
+    }
+
+    .register-link {
+
+      text-align: center;
+      margin-top: 20px;
+
+    }
+
+    .register-link a {
+
+      color: #ffd700;
+      text-decoration: none;
+
+    }
+
+  </style>
 
 </head>
 
 <body>
 
-  <div class="box">
+  <div class="login-box">
+
+    <img src="logo.png" class="logo" />
 
     <h1>Login</h1>
 
-    <form id="loginForm">
+    <input
+      type="email"
+      id="email"
+      placeholder="Email"
+    />
 
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="Email"
-        required
-      >
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    />
 
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Password"
-        required
-      >
+    <button onclick="login()">
 
-      <button type="submit">
-        Login
-      </button>
+      Login
 
-    </form>
+    </button>
 
-    <div class="register-text">
+    <div class="register-link">
 
-      Don't have an account?
+      <a href="register.html">
 
-      <br><br>
+        Create Account
 
-      <a href="/register.html">
-        Register
       </a>
 
     </div>
 
   </div>
 
-  <script src="/app.js"></script>
+  <script>
+
+    async function login() {
+
+      try {
+
+        const email =
+          document.getElementById("email").value;
+
+        const password =
+          document.getElementById("password").value;
+
+        const response = await fetch("/login", {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            email,
+            password
+
+          })
+
+        });
+
+        const data =
+          await response.json();
+
+        if (response.ok) {
+
+          localStorage.setItem(
+            "token",
+            data.token
+          );
+
+          window.location.href =
+            "/dashboard.html";
+
+        } else {
+
+          alert(data.message);
+
+        }
+
+      } catch (err) {
+
+        console.log(err);
+
+        alert("Login Error");
+
+      }
+
+    }
+
+  </script>
 
 </body>
 
