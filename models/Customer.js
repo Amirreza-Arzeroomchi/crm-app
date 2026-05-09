@@ -1,99 +1,53 @@
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema(
-
   {
-
     firstName: {
-
       type: String,
-
-      required: true
-
+      required: true,
     },
 
     lastName: {
-
       type: String,
-
-      required: true
-
+      required: true,
     },
 
     phone: {
-
       type: String,
-
-      default: ""
-
+      required: true,
     },
 
     email: {
-
       type: String,
-
-      default: ""
-
+      required: true,
     },
 
     address: {
-
       type: String,
-
-      default: ""
-
+      default: "",
     },
 
     city: {
-
       type: String,
-
-      default: ""
-
+      default: "",
     },
 
     description: {
-
       type: String,
-
-      default: ""
-
+      default: "",
     },
 
-    media: [
-
-      {
-
-        type: String
-
-      }
-
-    ],
-
-    userId: {
-
-      type: mongoose.Schema.Types.ObjectId,
-
-      ref: "User",
-
-      required: true
-
-    }
-
+    media: {
+      type: String,
+      default: "",
+    },
   },
-
   {
-
-    timestamps: true
-
+    timestamps: true,
   }
-
 );
 
 module.exports = mongoose.model(
-
   "Customer",
-
   customerSchema
-
 );
