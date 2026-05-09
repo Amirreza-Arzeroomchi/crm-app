@@ -187,169 +187,235 @@
 
     }
 
-    function viewCustomer(id){
+function viewCustomer(id){
 
-      const customer =
-        customers.find(
-          c => c._id === id
-        );
+  const customer =
+    customers.find(
+      c => c._id === id
+    );
 
-      if(!customer) return;
+  if(!customer) return;
 
-      let mediaHTML = "";
+  let mediaHTML = "";
 
-      if(customer.media){
+  if(customer.media){
 
-        const file =
-          customer.media
-          .toLowerCase();
+    const file =
+      customer.media
+      .toLowerCase();
 
-        if(
+    /* IMAGE FILES */
 
-          file.endsWith(".jpg")
-          ||
-          file.endsWith(".jpeg")
-          ||
-          file.endsWith(".png")
-          ||
-          file.endsWith(".webp")
+    if(
 
-        ){
+      file.endsWith(".jpg")
+      ||
+      file.endsWith(".jpeg")
+      ||
+      file.endsWith(".png")
+      ||
+      file.endsWith(".webp")
+      ||
+      file.endsWith(".gif")
 
-          mediaHTML = `
+    ){
 
-            <img
-              src="${customer.media}"
-              style="
-                width:300px;
-                margin-top:20px;
-                border-radius:15px;
-              "
-            />
+      mediaHTML = `
 
-          `;
+        <a
+          href="${customer.media}"
+          target="_blank"
+          style="
+            display:inline-block;
+          "
+        >
 
-        }
+          <img
+            src="${customer.media}"
+            style="
+              width:300px;
+              margin-top:20px;
+              border-radius:15px;
+              cursor:pointer;
+              border:3px solid #ffe100;
+              transition:0.3s;
+            "
+            onmouseover="this.style.opacity='0.85'"
+            onmouseout="this.style.opacity='1'"
+          />
 
-        else if(
-
-          file.endsWith(".mp4")
-
-        ){
-
-          mediaHTML = `
-
-            <video
-              controls
-              style="
-                width:400px;
-                margin-top:20px;
-                border-radius:15px;
-              "
-            >
-
-              <source
-                src="${customer.media}"
-              >
-
-            </video>
-
-          `;
-
-        }
-
-        else {
-
-          mediaHTML = `
-
-            <a
-              href="${customer.media}"
-              target="_blank"
-              class="file-link"
-            >
-              Open Attached File
-            </a>
-
-          `;
-
-        }
-
-      }
-
-      const details =
-        document.getElementById(
-          "customerDetails"
-        );
-
-      details.innerHTML = `
-
-        <h2>
-
-          ${customer.firstName}
-          ${customer.lastName}
-
-        </h2>
-
-        <p>
-
-          <b>Phone:</b>
-          ${customer.phone}
-
-        </p>
-
-        <p>
-
-          <b>Email:</b>
-          ${customer.email}
-
-        </p>
-
-        <p>
-
-          <b>Address:</b>
-          ${customer.address}
-
-        </p>
-
-        <p>
-
-          <b>City:</b>
-          ${customer.city}
-
-        </p>
-
-        <p>
-
-          <b>Description:</b>
-          ${customer.description}
-
-        </p>
-
-        ${mediaHTML}
+        </a>
 
         <br><br>
 
-        <button
-          class="email-btn"
-          onclick="sendSingleEmail('${customer.email}')"
+        <a
+          href="${customer.media}"
+          target="_blank"
+          class="file-link"
+          style="
+            display:inline-block;
+            background:#ffe100;
+            color:black;
+            padding:12px 20px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:bold;
+          "
         >
-          Send Email
-        </button>
+          Open Full Image
+        </a>
 
       `;
 
-      details.style.display =
-        "block";
+    }
 
-      details.scrollIntoView({
+    /* VIDEO FILES */
 
-        behavior:"smooth"
+    else if(
 
-      });
+      file.endsWith(".mp4")
+      ||
+      file.endsWith(".mov")
+      ||
+      file.endsWith(".webm")
+
+    ){
+
+      mediaHTML = `
+
+        <video
+          controls
+          style="
+            width:500px;
+            max-width:100%;
+            margin-top:20px;
+            border-radius:15px;
+            border:3px solid #ffe100;
+          "
+        >
+
+          <source
+            src="${customer.media}"
+          >
+
+        </video>
+
+        <br><br>
+
+        <a
+          href="${customer.media}"
+          target="_blank"
+          class="file-link"
+        >
+          Open Video
+        </a>
+
+      `;
 
     }
 
-    async function deleteCustomer(id){
+    /* OTHER FILES */
+
+    else {
+
+      mediaHTML = `
+
+        <a
+          href="${customer.media}"
+          target="_blank"
+          class="file-link"
+          style="
+            display:inline-block;
+            background:#ffe100;
+            color:black;
+            padding:14px 22px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:bold;
+            margin-top:20px;
+          "
+        >
+          Open Attached File
+        </a>
+
+      `;
+
+    }
+
+  }
+
+  const details =
+    document.getElementById(
+      "customerDetails"
+    );
+
+  details.innerHTML = `
+
+    <h2>
+
+      ${customer.firstName}
+      ${customer.lastName}
+
+    </h2>
+
+    <p>
+
+      <b>Phone:</b>
+      ${customer.phone}
+
+    </p>
+
+    <p>
+
+      <b>Email:</b>
+      ${customer.email}
+
+    </p>
+
+    <p>
+
+      <b>Address:</b>
+      ${customer.address}
+
+    </p>
+
+    <p>
+
+      <b>City:</b>
+      ${customer.city}
+
+    </p>
+
+    <p>
+
+      <b>Description:</b>
+      ${customer.description}
+
+    </p>
+
+    ${mediaHTML}
+
+    <br><br>
+
+    <button
+      class="email-btn"
+      onclick="sendSingleEmail('${customer.email}')"
+    >
+      Send Email
+    </button>
+
+  `;
+
+  details.style.display =
+    "block";
+
+  details.scrollIntoView({
+
+    behavior:"smooth"
+
+  });
+
+}
 
       const confirmDelete =
         confirm(
