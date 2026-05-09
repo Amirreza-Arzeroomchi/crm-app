@@ -439,80 +439,193 @@
 
     function viewCustomer(id) {
 
-      const customer =
-        customers.find(
-          c => c._id === id
-        );
+  const customer =
+    customers.find(
+      c => c._id === id
+    );
 
-      if (!customer) return;
+  if (!customer) return;
 
-      let mediaHTML = "";
+  let mediaHTML = "";
+
+  if (
+    customer.media &&
+    customer.media.length > 0
+  ) {
+
+    customer.media.forEach(file => {
+
+      const lower =
+        file.toLowerCase();
 
       if (
-        customer.media &&
-        customer.media.length > 0
+
+        lower.endsWith(".jpg") ||
+        lower.endsWith(".jpeg") ||
+        lower.endsWith(".png") ||
+        lower.endsWith(".webp") ||
+        lower.endsWith(".gif")
+
       ) {
 
-        customer.media.forEach(file => {
+        mediaHTML += `
 
-          const lower =
-            file.toLowerCase();
+          <a
+            href="${file}"
+            target="_blank"
+          >
 
-          if (
+            <img
+              src="${file}"
+              style="
+                width:220px;
+                margin-top:15px;
+                margin-right:10px;
+                border-radius:12px;
+                cursor:pointer;
+                border:2px solid #ffe100;
+              "
+            />
 
-            lower.endsWith(".jpg") ||
-            lower.endsWith(".jpeg") ||
-            lower.endsWith(".png") ||
-            lower.endsWith(".webp")
+          </a>
 
-          ) {
-
-            mediaHTML += `
-
-              <img src="${file}" />
-
-            `;
-
-          }
-
-          else if (
-
-            lower.endsWith(".mp4")
-
-          ) {
-
-            mediaHTML += `
-
-              <video controls>
-
-                <source src="${file}" />
-
-              </video>
-
-            `;
-
-          }
-
-          else {
-
-            mediaHTML += `
-
-              <a
-                href="${file}"
-                target="_blank"
-                class="file-link"
-              >
-                Open File
-              </a>
-
-            `;
-
-          }
-
-        });
+        `;
 
       }
 
+      else if (
+
+        lower.endsWith(".mp4") ||
+        lower.endsWith(".mov") ||
+        lower.endsWith(".webm")
+
+      ) {
+
+        mediaHTML += `
+
+          <video
+            controls
+            style="
+              width:350px;
+              margin-top:15px;
+              border-radius:12px;
+            "
+          >
+
+            <source src="${file}" />
+
+          </video>
+
+        `;
+
+      }
+
+      else {
+
+        mediaHTML += `
+
+          <div style="margin-top:15px;">
+
+            <a
+              href="${file}"
+              target="_blank"
+              class="file-link"
+              style="
+                background:#ffe100;
+                color:#000;
+                padding:12px 18px;
+                border-radius:10px;
+                text-decoration:none;
+                font-weight:bold;
+                display:inline-block;
+              "
+            >
+              Open Attached File
+            </a>
+
+          </div>
+
+        `;
+
+      }
+
+    });
+
+  }
+
+  const details =
+    document.getElementById(
+      "customerDetails"
+    );
+
+  details.innerHTML = `
+
+    <h2>
+
+      ${customer.firstName || ""}
+      ${customer.lastName || ""}
+
+    </h2>
+
+    <p>
+      <b>Phone:</b>
+      ${customer.phone || ""}
+    </p>
+
+    <p>
+      <b>Email:</b>
+      ${customer.email || ""}
+    </p>
+
+    <p>
+      <b>Address:</b>
+      ${customer.address || ""}
+    </p>
+
+    <p>
+      <b>City:</b>
+      ${customer.city || ""}
+    </p>
+
+    <p>
+      <b>Description:</b>
+      ${customer.description || ""}
+    </p>
+
+    <div
+      style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:15px;
+        margin-top:20px;
+      "
+    >
+
+      ${mediaHTML}
+
+    </div>
+
+    <br>
+
+    <button
+      class="email-btn"
+      onclick="sendSingleEmail('${customer.email}')"
+    >
+      Send Email
+    </button>
+
+  `;
+
+  details.style.display =
+    "block";
+
+  details.scrollIntoView({
+
+    behavior: "smooth"
+
+  });
+
+}
       const details =
         document.getElementById(
           "customerDetails"
