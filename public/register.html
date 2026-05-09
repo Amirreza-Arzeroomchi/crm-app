@@ -1,110 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+<script>
 
-<head>
+async function register() {
 
-  <meta charset="UTF-8">
+  const user = {
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    name: document.getElementById("name").value,
 
-  <title>Register</title>
+    email: document.getElementById("email").value,
 
-  <link rel="manifest" href="/manifest.json">
+    password: document.getElementById("password").value
 
-  <link rel="apple-touch-icon" href="/logo.png">
+  };
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  try {
 
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    const response = await fetch("/register", {
 
-  <link rel="stylesheet" href="/style.css">
+      method: "POST",
 
-</head>
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-<body>
+      body: JSON.stringify(user)
 
-  <a href="/login.html" class="back-btn">
-    ← Back to Login
-  </a>
+    });
 
-  <div class="box">
+    const data = await response.json();
 
-    <h1>Create Account</h1>
+    if(response.ok){
 
-    <input
-      type="text"
-      id="name"
-      placeholder="Name"
-    >
+      alert(data.message);
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Email"
-    >
+      window.location.href = "/login.html";
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Password"
-    >
+    } else {
 
-    <button onclick="register()">
-      Register
-    </button>
-
-  </div>
-
-  <script>
-
-    async function register(){
-
-      try{
-
-        const user = {
-
-          name: document.getElementById("name").value,
-
-          email: document.getElementById("email").value,
-
-          password: document.getElementById("password").value
-
-        };
-
-        const response = await fetch("/register", {
-
-          method:"POST",
-
-          headers:{
-            "Content-Type":"application/json"
-          },
-
-          body:JSON.stringify(user)
-
-        });
-
-        const data = await response.json();
-
-        alert(data.message);
-
-        if(response.ok){
-
-          window.location.href = "/login.html";
-
-        }
-
-      }catch(err){
-
-        console.log(err);
-
-        alert("Register Error");
-
-      }
+      alert(data.message);
 
     }
 
-  </script>
+  } catch (err) {
 
-</body>
+    console.log(err);
 
-</html>
+    alert("Register Error");
+
+  }
+
+}
+
+</script>
