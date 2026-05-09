@@ -104,3 +104,89 @@ button:hover{
   }
 
 }
+/* ================= DASHBOARD ================= */
+
+.dashboard-container{
+  width:100%;
+  min-height:100vh;
+  padding:30px;
+  box-sizing:border-box;
+}
+
+.top-bar{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:20px;
+}
+
+.logout-btn{
+  background:gold;
+  color:black;
+  border:none;
+  padding:12px 30px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.search-box{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:#2a2a2a;
+  color:white;
+  font-size:16px;
+  margin-bottom:25px;
+  box-sizing:border-box;
+}
+
+.table-container{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#1b1b1b;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+th{
+  background:gold;
+  color:black;
+  padding:18px;
+  text-align:left;
+}
+
+td{
+  padding:18px;
+  border-bottom:1px solid #333;
+}
+
+tr:hover{
+  background:#242424;
+}
+
+.delete-btn{
+  background:#ff3b3b;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.add-btn{
+  display:inline-block;
+  margin-top:25px;
+  background:gold;
+  color:black;
+  text-decoration:none;
+  padding:14px 25px;
+  border-radius:12px;
+  font-weight:bold;
+}

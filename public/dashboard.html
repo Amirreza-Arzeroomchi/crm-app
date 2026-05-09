@@ -5,70 +5,36 @@
 
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Dashboard</title>
 
-  <link rel="manifest" href="/manifest.json">
-
-  <link rel="apple-touch-icon" href="/logo.png">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black"
-  >
-
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-  <!-- LOGOUT -->
-
-  <button
-    onclick="logout()"
-    class="logout-btn"
-  >
-    Logout
-  </button>
-
-
-  <!-- DASHBOARD -->
-
   <div class="dashboard-container">
-
-
-    <!-- LOGO -->
-
-    <div class="logo-box">
-
-      <img src="/logo.png" alt="Logo">
-
-    </div>
-
-
-    <!-- SEARCH -->
 
     <div class="top-bar">
 
-      <input
-        type="text"
-        id="search"
-        placeholder="Search customers..."
-      >
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
 
     </div>
 
+    <img src="logo.png" class="logo">
 
-    <!-- TABLE -->
+    <input
+      type="text"
+      id="search"
+      class="search-box"
+      placeholder="Search customers..."
+    >
 
-    <div class="table-wrapper">
+    <div class="table-container">
 
       <table>
 
@@ -77,195 +43,41 @@
           <tr>
 
             <th>First Name</th>
-
             <th>Last Name</th>
-
             <th>Email</th>
-
             <th>Phone</th>
-
             <th>City</th>
-
             <th>Actions</th>
 
           </tr>
 
         </thead>
 
-        <tbody id="customerTable">
-
-        </tbody>
+        <tbody id="customerTable"></tbody>
 
       </table>
 
     </div>
 
-  </div>
-
-
-  <!-- MODAL -->
-
-  <div
-    class="modal"
-    id="customerModal"
-  >
-
-    <div
-      class="modal-content"
-      id="modalBox"
-    >
-
-      <div
-        class="modal-header"
-        id="dragHeader"
-      >
-
-        <div class="modal-title">
-
-          Customer Details
-
-        </div>
-
-        <div class="modal-actions">
-
-          <button
-            class="top-btn"
-            id="minimizeBtn"
-          >
-            —
-          </button>
-
-          <button
-            class="top-btn close-top"
-            id="closeModal"
-          >
-            ✕
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="modal-body">
-
-
-        <div class="info">
-
-          <span class="label">
-            First Name
-          </span>
-
-          <span id="mFirstName"></span>
-
-        </div>
-
-
-        <div class="info">
-
-          <span class="label">
-            Last Name
-          </span>
-
-          <span id="mLastName"></span>
-
-        </div>
-
-
-        <div class="info">
-
-          <span class="label">
-            Email
-          </span>
-
-          <span id="mEmail"></span>
-
-        </div>
-
-
-        <div class="info">
-
-          <span class="label">
-            Phone
-          </span>
-
-          <span id="mPhone"></span>
-
-        </div>
-
-
-        <div class="info">
-
-          <span class="label">
-            Address
-          </span>
-
-          <span id="mAddress"></span>
-
-        </div>
-
-
-        <div class="info">
-
-          <span class="label">
-            City
-          </span>
-
-          <span id="mCity"></span>
-
-        </div>
-
-
-        <div class="info">
-
-          <span class="label">
-            Description
-          </span>
-
-          <div id="mDescription"></div>
-
-        </div>
-
-      </div>
-
-    </div>
+    <a href="/customer.html" class="add-btn">
+      + Add Customer
+    </a>
 
   </div>
 
+  <script src="dashboard.js"></script>
 
   <script>
-
-    // ======================
-    // CHECK LOGIN
-    // ======================
-
-    const token =
-    localStorage.getItem("token");
-
-    if(!token){
-
-      window.location.href =
-      "/login.html";
-
-    }
-
-
-    // ======================
-    // LOGOUT
-    // ======================
 
     function logout(){
 
       localStorage.removeItem("token");
 
-      window.location.href =
-      "/login.html";
+      window.location.href = "/login.html";
 
     }
 
   </script>
-
-  <script src="/dashboard.js"></script>
 
 </body>
 

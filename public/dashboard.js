@@ -1,47 +1,34 @@
 let customers = [];
 
+async function loadCustomers() {
 
-// ======================================
-// LOAD CUSTOMERS
-// ======================================
+  try {
 
-function loadCustomers(){
+    const response = await fetch("/customers");
 
-  fetch("/customers")
+    const data = await response.json();
 
-    .then(res => res.json())
+    customers = data;
 
-    .then(data => {
+    renderTable(customers);
 
-      customers = data;
+  } catch (err) {
 
-      renderTable(customers);
+    console.log(err);
 
-    })
-
-    .catch(err => console.log(err));
+  }
 
 }
 
+function renderTable(data) {
 
-// ======================================
-// RENDER TABLE
-// ======================================
-
-function renderTable(data){
-
-  const table =
-  document.getElementById("customerTable");
-
-  if(!table) return;
+  const table = document.getElementById("customerTable");
 
   table.innerHTML = "";
 
-  let rows = "";
-
   data.forEach((c) => {
 
-    rows += `
+    table.innerHTML += `
 
       <tr>
 
@@ -58,22 +45,7 @@ function renderTable(data){
         <td>
 
           <button
-            class="action-btn email-btn"
-            onclick="viewCustomer(
-              '${c.firstName || ""}',
-              '${c.lastName || ""}',
-              '${c.email || ""}',
-              '${c.phone || ""}',
-              '${c.address || ""}',
-              '${c.city || ""}',
-              '${c.description || ""}'
-            )"
-          >
-            View
-          </button>
-
-          <button
-            class="action-btn delete-btn"
+            class="delete-btn"
             onclick="deleteCustomer('${c._id}')"
           >
             Delete
@@ -87,225 +59,62 @@ function renderTable(data){
 
   });
 
-  table.innerHTML = rows;
-
 }
 
+async function deleteCustomer(id){
 
-// ======================================
-// DELETE CUSTOMER
-// ======================================
+  try {
 
-function deleteCustomer(id){
+    await fetch("/delete/" + id, {
 
-  const confirmDelete =
-  confirm("Delete this customer?");
+      method:"DELETE"
 
-  if(!confirmDelete) return;
-
-  fetch("/delete/" + id, {
-
-    method:"DELETE"
-
-  })
-
-  .then(() => {
+    });
 
     loadCustomers();
 
-  })
+  } catch(err){
 
-  .catch(err => console.log(err));
+    console.log(err);
 
-}
-
-
-// ======================================
-// SEARCH
-// ======================================
-
-const searchInput =
-document.getElementById("search");
-
-if(searchInput){
-
-  searchInput.addEventListener("input", function(){
-
-    const value =
-    this.value.toLowerCase();
-
-    const filtered =
-    customers.filter(c =>
-
-      (c.firstName || "")
-      .toLowerCase()
-      .includes(value)
-
-      ||
-
-      (c.lastName || "")
-      .toLowerCase()
-      .includes(value)
-
-      ||
-
-      (c.email || "")
-      .toLowerCase()
-      .includes(value)
-
-      ||
-
-      (c.city || "")
-      .toLowerCase()
-      .includes(value)
-
-    );
-
-    renderTable(filtered);
-
-  });
+  }
 
 }
 
+document
+.getElementById("search")
+.addEventListener("input", function(){
 
-// ======================================
-// VIEW CUSTOMER
-// ======================================
+  const value = this.value.toLowerCase();
 
-function viewCustomer(
-  firstName,
-  lastName,
-  email,
-  phone,
-  address,
-  city,
-  description
-){
+  const filtered = customers.filter(c =>
 
-  document.getElementById("mFirstName").innerText = firstName;
+    (c.firstName || "")
+    .toLowerCase()
+    .includes(value)
 
-  document.getElementById("mLastName").innerText = lastName;
+    ||
 
-  document.getElementById("mEmail").innerText = email;
+    (c.lastName || "")
+    .toLowerCase()
+    .includes(value)
 
-  document.getElementById("mPhone").innerText = phone;
+    ||
 
-  document.getElementById("mAddress").innerText = address;
+    (c.email || "")
+    .toLowerCase()
+    .includes(value)
 
-  document.getElementById("mCity").innerText = city;
+    ||
 
-  document.getElementById("mDescription").innerText = description;
+    (c.city || "")
+    .toLowerCase()
+    .includes(value)
 
-  document.getElementById("customerModal")
-  .style.display = "flex";
-
-}
-
-
-// ======================================
-// CLOSE MODAL
-// ======================================
-
-const closeModal =
-document.getElementById("closeModal");
-
-if(closeModal){
-
-  closeModal.onclick = () => {
-
-    document.getElementById("customerModal")
-    .style.display = "none";
-
-  };
-
-}
-
-
-// ======================================
-// MINIMIZE MODAL
-// ======================================
-
-const minimizeBtn =
-document.getElementById("minimizeBtn");
-
-if(minimizeBtn){
-
-  minimizeBtn.onclick = () => {
-
-    document.getElementById("modalBox")
-    .classList.toggle("minimized");
-
-  };
-
-}
-
-
-// ======================================
-// DRAGGABLE MODAL
-// ======================================
-
-const modalBox =
-document.getElementById("modalBox");
-
-const dragHeader =
-document.getElementById("dragHeader");
-
-let isDragging = false;
-
-let offsetX = 0;
-
-let offsetY = 0;
-
-if(dragHeader){
-
-  dragHeader.addEventListener(
-    "mousedown",
-    (e) => {
-
-      isDragging = true;
-
-      offsetX =
-      e.clientX -
-      modalBox.offsetLeft;
-
-      offsetY =
-      e.clientY -
-      modalBox.offsetTop;
-
-    }
   );
 
-}
+  renderTable(filtered);
 
-
-document.addEventListener(
-  "mousemove",
-  (e) => {
-
-    if(!isDragging) return;
-
-    modalBox.style.left =
-    e.clientX - offsetX + "px";
-
-    modalBox.style.top =
-    e.clientY - offsetY + "px";
-
-  }
-);
-
-
-document.addEventListener(
-  "mouseup",
-  () => {
-
-    isDragging = false;
-
-  }
-);
-
-
-// ======================================
-// INIT
-// ======================================
+});
 
 loadCustomers();
