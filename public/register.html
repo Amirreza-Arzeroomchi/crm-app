@@ -1,131 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
+
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>Register</title>
 
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-  <div class="auth-container">
+  <div class="auth-wrapper">
 
-    <img
-      src="logo.png"
-      class="logo"
-    />
+    <div class="auth-box">
 
-    <h1>Create Account</h1>
+      <img
+        src="logo.png"
+        class="auth-logo"
+      >
 
-    <form id="registerForm">
+      <h1>Create Account</h1>
 
-      <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        required
-      />
+      <form id="registerForm">
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        required
-      />
+        <input
+          type="text"
+          id="name"
+          placeholder="Name"
+          required
+        >
 
-      <button type="submit">
-        Register
-      </button>
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          required
+        >
 
-    </form>
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          required
+        >
 
-    <a href="login.html">
-      Back To Login
-    </a>
+        <button type="submit">
+          Register
+        </button>
+
+      </form>
+
+      <a href="login.html">
+        Back To Login
+      </a>
+
+    </div>
 
   </div>
 
   <script>
 
-    const registerForm =
-      document.getElementById(
-        "registerForm"
-      );
-
-    registerForm.addEventListener(
-      "submit",
-      async (e) => {
+    document
+      .getElementById("registerForm")
+      .addEventListener("submit", async(e)=>{
 
         e.preventDefault();
 
+        const name =
+          document.getElementById("name").value;
+
         const email =
-          document.getElementById(
-            "email"
-          ).value;
+          document.getElementById("email").value;
 
         const password =
-          document.getElementById(
-            "password"
-          ).value;
+          document.getElementById("password").value;
 
-        try {
+        const response =
+          await fetch("/register", {
 
-          const response =
-            await fetch("/register", {
+            method:"POST",
 
-              method: "POST",
+            headers:{
+              "Content-Type":"application/json"
+            },
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
+            body:JSON.stringify({
+              name,
+              email,
+              password
+            })
 
-              body: JSON.stringify({
-                email,
-                password,
-              }),
-            });
+          });
 
-          const data =
-            await response.json();
+        const data =
+          await response.json();
 
-          if (data.success) {
+        if(data.success){
 
-            alert(
-              "Registered Successfully"
-            );
+          alert("Account Created");
 
-            window.location.href =
-              "login.html";
+          window.location.href =
+            "login.html";
 
-          } else {
+        } else {
 
-            alert(
-              data.message
-            );
-
-          }
-
-        } catch (err) {
-
-          console.log(err);
-
-          alert("Server Error");
+          alert(
+            data.message ||
+            "Register Failed"
+          );
 
         }
 
-      }
-    );
+      });
 
   </script>
 
 </body>
+
 </html>
