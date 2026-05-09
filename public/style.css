@@ -1,656 +1,309 @@
-/* ===================== RESET ===================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+/* ================= RESET ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
 }
 
-/* ===================== BODY ===================== */
-body {
-  background: radial-gradient(circle at top, #ffffff, #ffffff);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
 
-/* ===================== CONTAINER ===================== */
-.container {
-  width: 420px;
-  padding: 30px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 60px rgba(255, 204, 0, 0.08);
-  animation: fadeIn 0.8s ease;
-}
+/* ================= BODY ================= */
 
-/* ===================== LOGO ===================== */
-.logo-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;   /* center horizontally */
-  align-items: center;
-  margin-bottom: 25px;
-}
+body{
 
-/* logo image */
-.logo {
-  width: 100%;
-  max-width: 320px;   /* control size */
-  height: 85px;
-  object-fit: contain;
+  background:#111;
 
-  display: block;
-  margin: 0 auto;     /* extra centering */
-
-  /* clean subtle glow */
-  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.4));
-
-  transition: 0.3s ease;
-}
-
-/* subtle hover */
-.logo:hover {
-  transform: scale(1.03);
-}
-
-/* ===================== INPUTS ===================== */
-input,
-textarea {
-  width: 100%;
-  padding: 13px;
-  margin: 10px 0;
-  border-radius: 12px;
-  border: none;
-  outline: none;
-  background: #2a2a2a;
-  color: #fff;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-input:focus,
-textarea:focus {
-  background: #000000;
-  box-shadow: 0 0 10px #ffffff;
-}
-
-/* textarea */
-textarea {
-  resize: none;
-  height: 100px;
-}
-
-/* ===================== BUTTON ===================== */
-button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(45deg, #ffcc00, #ffaa00);
-  color: #000;
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 0 25px #ff0000;
-}
-
-/* ===================== LINK ===================== */
-a {
-  display: block;
-  text-align: center;
-  margin-top: 18px;
-  color: #ffcc00;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ===================== SEARCH ===================== */
-#search {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #2a2a2a;
-  color: #fff;
-}
-
-/* ===================== TABLE ===================== */
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-/* header */
-thead {
-  background: linear-gradient(45deg, #ffcc00, #ffaa00);
-  color: #000;
-}
-
-th {
-  padding: 12px;
-  text-align: left;
-}
-
-td {
-  padding: 10px;
-  border-bottom: 1px solid #333;
-}
-
-/* hover row */
-tr:hover {
-  background: rgba(255, 204, 0, 0.05);
-}
-
-/* ===================== ACTION BUTTONS ===================== */
-.action-btn {
-  padding: 6px 10px;
-  margin: 2px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  transition: 0.3s;
-}
-
-/* email */
-.email-btn {
-  background: #ffcc00;
-  color: #000;
-}
-
-.email-btn:hover {
-  background: #ffaa00;
-}
-
-/* delete */
-.delete-btn {
-  background: #444;
-  color: #fff;
-}
-
-.delete-btn:hover {
-  background: red;
-}
-
-/* ===================== ANIMATIONS ===================== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* ================= DASHBOARD ONLY ================= */
-
-.dashboard-container {
-  width: 900px;
-  max-width: 95%;
-  padding: 30px;
-
-  border-radius: 20px;
-  background: rgba(20, 20, 20, 0.95);
-  backdrop-filter: blur(20px);
-
-  box-shadow: 0 0 80px rgba(255, 204, 0, 0.08);
-}
-
-/* logo */
-.dashboard-container .logo {
-  height: 65px;
-  margin-bottom: 20px;
-}
-
-/* search bar */
-.dashboard-container #search {
-  margin-bottom: 15px;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 14px;
-}
-
-/* main button */
-.dashboard-container button {
-  margin-bottom: 20px;
-}
-
-/* table wrapper */
-.table-wrapper {
-  overflow-x: auto;
-  border-radius: 12px;
-}
-
-/* table */
-.dashboard-container table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-/* header */
-.dashboard-container thead {
-  background: linear-gradient(45deg, #ffcc00, #ffaa00);
-  color: #000;
-}
-
-/* cells */
-.dashboard-container th {
-  padding: 14px;
-  text-align: center;
-  font-weight: 600;
-}
-
-.dashboard-container td {
-  padding: 12px;
-  text-align: center;
-  border-bottom: 1px solid #333;
-}
-
-/* row hover */
-.dashboard-container tbody tr {
-  transition: 0.2s;
-}
-
-.dashboard-container tbody tr:hover {
-  background: rgba(255, 204, 0, 0.06);
-  transform: scale(1.01);
-}
-
-/* checkbox center */
-.dashboard-container input[type="checkbox"] {
-  transform: scale(1.2);
-  cursor: pointer;
-}
-
-/* action buttons */
-.dashboard-container .action-btn {
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-}
-
-/* email */
-.dashboard-container .email-btn {
-  background: #ffcc00;
-  color: #000;
-}
-
-/* delete */
-.dashboard-container .delete-btn {
-  background: #2a2a2a;
-  color: #fff;
-}
-
-.dashboard-container .delete-btn:hover {
-  background: red;
-}
-
-/* smooth fade */
-.dashboard-container {
-  animation: fadeIn 0.7s ease;
-}
-/* ================= DASHBOARD PRO ================= */
-
-.dashboard-container {
-  width: 1000px;
-  max-width: 95%;
-  padding: 30px;
-
-  border-radius: 24px;
-  background: rgba(15, 15, 15, 0.95);
-  backdrop-filter: blur(25px);
-
-  box-shadow:
-    0 0 80px rgba(255, 204, 0, 0.06),
-    inset 0 0 20px rgba(255, 204, 0, 0.03);
-
-  animation: fadeIn 0.6s ease;
-}
-
-/* ===== HEADER ===== */
-.dashboard-header {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.dashboard-header img {
-  height: 70px;
-  object-fit: contain;
-}
-
-/* ===== SEARCH ===== */
-.dashboard-container #search {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  outline: none;
-
-  background: #1f1f1f;
-  color: #fff;
-  font-size: 14px;
-
-  margin-bottom: 15px;
-}
-
-/* ===== MAIN BUTTON ===== */
-.dashboard-container button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-
-  background: linear-gradient(45deg, #ffcc00, #ffaa00);
-  color: #000;
-  font-weight: bold;
-
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-.dashboard-container button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 20px #ffcc00;
-}
-
-/* ===== TABLE WRAPPER ===== */
-.table-wrapper {
-  background: #121212;
-  border-radius: 16px;
-  padding: 10px;
-}
-
-/* ===== TABLE ===== */
-.dashboard-container table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-/* header */
-.dashboard-container thead {
-  background: linear-gradient(45deg, #ffcc00, #ffaa00);
-  color: #000;
-}
-
-.dashboard-container th {
-  padding: 14px;
-  text-align: center;
-  font-weight: 600;
-}
-
-/* rows */
-.dashboard-container td {
-  padding: 12px;
-  text-align: center;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-/* hover effect */
-.dashboard-container tbody tr {
-  transition: 0.25s;
-}
-
-.dashboard-container tbody tr:hover {
-  background: rgba(255, 204, 0, 0.05);
-  transform: scale(1.01);
-}
-
-/* checkbox */
-.dashboard-container input[type="checkbox"] {
-  transform: scale(1.2);
-}
-
-/* ===== ACTION BUTTONS ===== */
-.dashboard-container .action-btn {
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-}
-
-/* email */
-.dashboard-container .email-btn {
-  background: #ffcc00;
-  color: #000;
-}
-
-/* delete */
-.dashboard-container .delete-btn {
-  background: #2a2a2a;
-  color: #fff;
-}
-
-.dashboard-container .delete-btn:hover {
-  background: red;
-}
-/* ================= MODAL ================= */
-
-.modal{
-
-  position:fixed;
-  inset:0;
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  background:rgba(0,0,0,.7);
-
-  backdrop-filter:blur(10px);
-
-  z-index:9999;
-}
-
-/* ================= MODAL BOX ================= */
-
-.modal-content{
-
-  width:720px;
-  max-width:92%;
-
-  background:
-    linear-gradient(
-      145deg,
-      #1d1d1d,
-      #111
-    );
-
-  border-radius:26px;
-
-  border:
-    1px solid rgba(255,204,0,.15);
-
-  box-shadow:
-    0 0 60px rgba(0,0,0,.65),
-    0 0 30px rgba(255,204,0,.08);
-
-  overflow:hidden;
-
-  position:absolute;
-}
-
-/* ================= HEADER ================= */
-
-.modal-header{
-
-  height:70px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #1f1f1f,
-      #141414
-    );
-
-  border-bottom:
-    1px solid rgba(255,255,255,.05);
+  min-height:100vh;
 
   display:flex;
+
+  justify-content:center;
+
   align-items:center;
-  justify-content:space-between;
 
-  padding:0 24px;
-
-  cursor:move;
+  color:white;
 }
+
+
+/* ================= LOGIN / REGISTER BOX ================= */
+
+.box{
+
+  width:380px;
+
+  background:#1b1b1b;
+
+  padding:35px;
+
+  border-radius:22px;
+
+  box-shadow:
+    0 0 40px rgba(255,204,0,.08);
+
+  animation:fadeIn .6s ease;
+}
+
 
 /* ================= TITLE ================= */
 
-.modal-title{
+.box h1{
+
+  text-align:center;
 
   color:#ffcc00;
 
-  font-size:20px;
-  font-weight:700;
+  margin-bottom:30px;
+
+  font-size:32px;
 }
 
-/* ================= ACTIONS ================= */
 
-.modal-actions{
-  display:flex;
-  gap:10px;
-}
+/* ================= INPUTS ================= */
 
-/* ================= TOP BUTTONS ================= */
+.box input,
+.box textarea{
 
-.top-btn{
+  width:100%;
 
-  width:38px;
-  height:38px;
+  padding:15px;
+
+  margin-bottom:15px;
 
   border:none;
-  border-radius:10px;
+
+  border-radius:12px;
 
   background:#2a2a2a;
 
   color:white;
 
-  font-size:18px;
+  font-size:15px;
+
+  outline:none;
+
+  transition:.25s;
+}
+
+.box input:focus,
+.box textarea:focus{
+
+  box-shadow:
+    0 0 10px rgba(255,204,0,.25);
+
+  background:#222;
+}
+
+
+/* ================= BUTTON ================= */
+
+.box button{
+
+  width:100%;
+
+  padding:15px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:
+    linear-gradient(
+      45deg,
+      #ffcc00,
+      #ffaa00
+    );
+
+  color:black;
+
+  font-size:16px;
+
+  font-weight:bold;
+
   cursor:pointer;
 
   transition:.25s;
 }
 
-.top-btn:hover{
+.box button:hover{
 
-  background:#ffcc00;
-  color:black;
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 20px rgba(255,204,0,.3);
 }
 
-.close-top:hover{
 
-  background:#ff3b30;
+/* ================= REGISTER TEXT ================= */
+
+.register-text{
+
+  margin-top:18px;
+
+  text-align:center;
+
   color:white;
 }
 
-/* ================= BODY ================= */
-
-.modal-body{
-
-  padding:28px;
-
-  max-height:70vh;
-  overflow-y:auto;
-}
-
-/* ================= INFO ================= */
-
-.info{
-
-  margin-bottom:18px;
-
-  background:
-    rgba(255,255,255,.03);
-
-  border-radius:18px;
-
-  padding:18px;
-}
-
-/* ================= LABEL ================= */
-
-.label{
-
-  display:block;
+.register-text a{
 
   color:#ffcc00;
 
+  text-decoration:none;
+
+  font-weight:bold;
+}
+
+
+/* ================= BACK BUTTON ================= */
+
+.back-btn{
+
+  position:absolute;
+
+  top:25px;
+  left:25px;
+
+  color:#ffcc00;
+
+  text-decoration:none;
+
+  font-size:17px;
+
+  font-weight:bold;
+}
+
+
+/* ================= DASHBOARD ================= */
+
+.dashboard-container{
+
+  width:1000px;
+
+  max-width:95%;
+
+  padding:30px;
+
+  border-radius:24px;
+
+  background:#161616;
+
+  box-shadow:
+    0 0 60px rgba(255,204,0,.06);
+
+  animation:fadeIn .6s ease;
+}
+
+
+/* ================= SEARCH ================= */
+
+#search{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:#222;
+
+  color:white;
+
+  margin-bottom:20px;
+
+  outline:none;
+}
+
+
+/* ================= TABLE ================= */
+
+.table-wrapper{
+
+  overflow-x:auto;
+}
+
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+}
+
+thead{
+
+  background:
+    linear-gradient(
+      45deg,
+      #ffcc00,
+      #ffaa00
+    );
+
+  color:black;
+}
+
+th{
+
+  padding:14px;
+
+  text-align:center;
+}
+
+td{
+
+  padding:12px;
+
+  text-align:center;
+
+  border-bottom:
+    1px solid #2a2a2a;
+}
+
+tbody tr:hover{
+
+  background:
+    rgba(255,204,0,.04);
+}
+
+
+/* ================= ACTION BUTTONS ================= */
+
+.action-btn{
+
+  padding:8px 12px;
+
+  border:none;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
   font-size:12px;
-  font-weight:700;
 
-  margin-bottom:10px;
-
-  text-transform:uppercase;
+  transition:.25s;
 }
 
-/* ================= VALUES ================= */
+.email-btn{
 
-.info span:last-child,
-#mDescription{
-
-  color:#f1f1f1;
-
-  line-height:1.8;
-
-  font-size:15px;
-}
-
-/* ================= DESCRIPTION ================= */
-
-#mDescription{
-
-  background:#1a1a1a;
-
-  padding:15px;
-
-  border-radius:14px;
-
-  margin-top:10px;
-}
-
-/* ================= SCROLLBAR ================= */
-
-.modal-body::-webkit-scrollbar{
-  width:10px;
-}
-
-.modal-body::-webkit-scrollbar-thumb{
   background:#ffcc00;
-  border-radius:20px;
+
+  color:black;
 }
 
-.modal-body::-webkit-scrollbar-track{
-  background:#111;
+.delete-btn{
+
+  background:#2a2a2a;
+
+  color:white;
 }
 
-/* ================= MINIMIZE ================= */
+.delete-btn:hover{
 
-.minimized .modal-body{
-  display:none;
+  background:red;
 }
 
-.minimized{
-  height:auto;
-}
+
 /* ================= LOGOUT ================= */
 
 .logout-btn{
@@ -660,41 +313,102 @@ tr:hover {
   top:20px;
   right:20px;
 
-  height:52px;
-
-  padding:0 24px;
+  padding:14px 22px;
 
   border:none;
+
   border-radius:14px;
 
   background:
     linear-gradient(
-      135deg,
+      45deg,
       #ffcc00,
-      #ffae00
+      #ffaa00
     );
 
   color:black;
 
-  font-size:15px;
-  font-weight:700;
+  font-weight:bold;
 
   cursor:pointer;
 
-  z-index:99999;
-
-  transition:.25s;
-
-  box-shadow:
-    0 10px 30px rgba(255,204,0,.18);
-
+  z-index:9999;
 }
 
-.logout-btn:hover{
 
-  transform:translateY(-2px);
+/* ================= MODAL ================= */
 
-  box-shadow:
-    0 14px 35px rgba(255,204,0,.28);
+.modal{
+
+  position:fixed;
+
+  inset:0;
+
+  display:none;
+
+  justify-content:center;
+
+  align-items:center;
+
+  background:
+    rgba(0,0,0,.7);
+
+  z-index:99999;
+}
+
+.modal-content{
+
+  width:700px;
+
+  max-width:92%;
+
+  background:#1b1b1b;
+
+  border-radius:24px;
+
+  overflow:hidden;
+}
+
+.modal-header{
+
+  padding:20px;
+
+  background:#222;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+}
+
+.modal-title{
+
+  color:#ffcc00;
+
+  font-size:20px;
+
+  font-weight:bold;
+}
+
+.modal-body{
+
+  padding:25px;
+}
+
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 
 }

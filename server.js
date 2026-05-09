@@ -15,36 +15,44 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-// =========================
-// MONGODB CONNECT
-// =========================
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
-
-
-// =========================
+// ======================================
 // MIDDLEWARE
-// =========================
+// ======================================
 
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
 
-// =========================
-// HOME PAGE
-// =========================
+// ======================================
+// MONGODB CONNECT
+// ======================================
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log("MongoDB Connected");
+})
+.catch((err) => {
+  console.log("MongoDB Error:", err);
 });
 
 
-// =========================
+// ======================================
+// HOME PAGE
+// ======================================
+
+app.get("/", (req, res) => {
+
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+
+});
+
+
+// ======================================
 // REGISTER USER
-// =========================
+// ======================================
 
 app.post("/register", async (req, res) => {
 
@@ -64,16 +72,20 @@ app.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
+    const newUser = new User({
+
       name,
       email,
       password: hashedPassword
+
     });
 
-    await user.save();
+    await newUser.save();
 
-    res.json({
+    res.status(201).json({
+
       message: "User Registered Successfully"
+
     });
 
   } catch (err) {
@@ -81,7 +93,9 @@ app.post("/register", async (req, res) => {
     console.log(err);
 
     res.status(500).json({
+
       message: "Register Error"
+
     });
 
   }
@@ -89,9 +103,9 @@ app.post("/register", async (req, res) => {
 });
 
 
-// =========================
+// ======================================
 // LOGIN USER
-// =========================
+// ======================================
 
 app.post("/login", async (req, res) => {
 
@@ -104,7 +118,9 @@ app.post("/login", async (req, res) => {
     if (!user) {
 
       return res.status(400).json({
+
         message: "User Not Found"
+
       });
 
     }
@@ -114,19 +130,29 @@ app.post("/login", async (req, res) => {
     if (!validPassword) {
 
       return res.status(400).json({
+
         message: "Wrong Password"
+
       });
 
     }
 
     const token = jwt.sign(
+
       { id: user._id },
-      "secretkey"
+
+      "secretkey",
+
+      { expiresIn: "7d" }
+
     );
 
     res.json({
+
       message: "Login Success",
+
       token
+
     });
 
   } catch (err) {
@@ -134,7 +160,9 @@ app.post("/login", async (req, res) => {
     console.log(err);
 
     res.status(500).json({
+
       message: "Login Error"
+
     });
 
   }
@@ -142,9 +170,9 @@ app.post("/login", async (req, res) => {
 });
 
 
-// =========================
+// ======================================
 // SAVE CUSTOMER
-// =========================
+// ======================================
 
 app.post("/save", async (req, res) => {
 
@@ -183,9 +211,9 @@ app.post("/save", async (req, res) => {
 });
 
 
-// =========================
+// ======================================
 // GET CUSTOMERS
-// =========================
+// ======================================
 
 app.get("/customers", async (req, res) => {
 
@@ -206,30 +234,51 @@ app.get("/customers", async (req, res) => {
 });
 
 
-// =========================
+// ======================================
 // DELETE CUSTOMER
-// =========================
+// ======================================
 
 const dataFile = path.join(__dirname, "public", "data.json");
 
 app.delete("/delete/:index", (req, res) => {
 
-  let data = JSON.parse(fs.readFileSync(dataFile));
+  try {
 
-  const index = req.params.index;
+    let data = JSON.parse(fs.readFileSync(dataFile));
 
-  data.splice(index, 1);
+    const index = req.params.index;
 
-  fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    data.splice(index, 1);
 
-  res.send("Deleted");
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+
+    res.send("Deleted");
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).send("Delete Error");
+
+  }
 
 });
 
 
-// =========================
+// ======================================
+// 404 PAGE
+// ======================================
+
+app.use((req, res) => {
+
+  res.status(404).send("Page Not Found");
+
+});
+
+
+// ======================================
 // START SERVER
-// =========================
+// ======================================
 
 app.listen(PORT, () => {
 

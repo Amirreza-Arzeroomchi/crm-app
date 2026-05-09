@@ -1,6 +1,10 @@
+// ======================================
+// SAVE CUSTOMER
+// ======================================
+
 const form = document.getElementById("customerForm");
 
-if (form) {
+if(form){
 
   form.addEventListener("submit", async (e) => {
 
@@ -9,50 +13,58 @@ if (form) {
     const customer = {
 
       firstName: document.getElementById("firstName").value,
+
       lastName: document.getElementById("lastName").value,
+
       phone: document.getElementById("phone").value,
+
       email: document.getElementById("email").value,
+
       address: document.getElementById("address").value,
+
       city: document.getElementById("city").value,
+
       description: document.getElementById("description").value
 
     };
 
-    try {
+    try{
 
       const response = await fetch("/save", {
 
-        method: "POST",
+        method:"POST",
 
-        headers: {
+        headers:{
 
-          "Content-Type": "application/json",
+          "Content-Type":"application/json",
 
-          "Authorization": "Bearer " + localStorage.getItem("token")
+          "Authorization":"Bearer " + localStorage.getItem("token")
 
         },
 
-        body: JSON.stringify(customer)
+        body:JSON.stringify(customer)
 
       });
 
-      await response.text();
+      const result = await response.text();
 
-      if (response.ok) {
-        alert("Customer saved successfully");
+      if(response.ok){
+
+        alert("Customer Saved Successfully");
+
         form.reset();
-      } else {
-        alert("Error saving customer");
+
+      }else{
+
+        alert(result);
+
       }
-      } else {
-        alert("Error saving customer: " + result);
-      }
 
-    } catch (error) {
+    }catch(error){
 
-      console.error(error);
+      console.log(error);
 
-      alert("Error saving customer");
+      alert("Error Saving Customer");
 
     }
 
@@ -61,10 +73,13 @@ if (form) {
 }
 
 
+// ======================================
+// LOGIN USER
+// ======================================
 
 const loginForm = document.getElementById("loginForm");
 
-if (loginForm) {
+if(loginForm){
 
   loginForm.addEventListener("submit", async (e) => {
 
@@ -74,19 +89,17 @@ if (loginForm) {
 
     const password = document.getElementById("loginPassword").value;
 
-    try {
+    try{
 
       const response = await fetch("/login", {
 
-        method: "POST",
+        method:"POST",
 
-        headers: {
-
-          "Content-Type": "application/json"
-
+        headers:{
+          "Content-Type":"application/json"
         },
 
-        body: JSON.stringify({
+        body:JSON.stringify({
 
           email,
           password
@@ -97,7 +110,7 @@ if (loginForm) {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if(response.ok){
 
         localStorage.setItem("token", data.token);
 
@@ -105,13 +118,13 @@ if (loginForm) {
 
         window.location.href = "/dashboard.html";
 
-      } else {
+      }else{
 
         alert(data.message);
 
       }
 
-    } catch (err) {
+    }catch(err){
 
       console.log(err);
 
