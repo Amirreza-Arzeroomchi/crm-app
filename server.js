@@ -8,6 +8,7 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
 
 const User = require("./models/User");
 const Customer = require("./models/Customer");
@@ -16,17 +17,17 @@ const app = express();
 
 const PORT = process.env.PORT || 10000;
 
-/* =========================================
-   CREATE UPLOADS FOLDER
-========================================= */
+/* =========================
+   CREATE UPLOADS
+========================= */
 
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
+if (!fs.existsSync("./uploads")) {
+  fs.mkdirSync("./uploads");
 }
 
-/* =========================================
+/* =========================
    MIDDLEWARE
-========================================= */
+========================= */
 
 app.use(cors());
 
@@ -36,11 +37,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
 
-/* =========================================
-   MONGODB
-========================================= */
+/* =========================
+   DATABASE
+========================= */
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -51,9 +55,9 @@ mongoose
     console.log(err);
   });
 
-/* =========================================
-   MULTER
-========================================= */
+/* =========================
+   FILE UPLOAD
+========================= */
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -61,30 +65,36 @@ const storage = multer.diskStorage({
   },
 
   filename: function (req, file, cb) {
-    const uniqueName = Date.now() + "-" + file.originalname;
-    cb(null, uniqueName);
+    cb(
+      null,
+      Date.now() + "-" + file.originalname
+    );
   },
 });
 
 const upload = multer({ storage });
 
-/* =========================================
-   AUTH
-========================================= */
+/* =========================
+   REGISTER
+========================= */
 
 app.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const userExists = await User.findOne({
+      email,
+    });
 
-    if (existingUser) {
-      return res.status(400).json({
+    if (userExists) {
+      return res.json({
+        success: false,
         message: "User already exists",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword =
+      await bcrypt.hash(password, 10);
 
     const user = new User({
       email,
@@ -94,61 +104,75 @@ app.post("/register", async (req, res) => {
     await user.save();
 
     res.json({
+      success: true,
       message: "Registered Successfully",
     });
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({
+    res.json({
+      success: false,
       message: "Register Error",
     });
   }
 });
 
+/* =========================
+   LOGIN
+========================= */
+
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      email,
+    });
 
     if (!user) {
-      return res.status(400).json({
+      return res.json({
+        success: false,
         message: "Invalid Credentials",
       });
     }
 
-    const validPassword = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const validPassword =
+      await bcrypt.compare(
+        password,
+        user.password
+      );
 
     if (!validPassword) {
-      return res.status(400).json({
+      return res.json({
+        success: false,
         message: "Invalid Credentials",
       });
     }
 
     const token = jwt.sign(
-      { id: user._id },
+      {
+        id: user._id,
+      },
       process.env.JWT_SECRET
     );
 
     res.json({
+      success: true,
       token,
-      message: "Login Success",
     });
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({
+    res.json({
+      success: false,
       message: "Login Error",
     });
   }
 });
 
-/* =========================================
+/* =========================
    SAVE CUSTOMER
-========================================= */
+========================= */
 
 app.post(
   "/save-customer",
@@ -165,10 +189,11 @@ app.post(
         description,
       } = req.body;
 
-      let mediaPath = "";
+      let media = "";
 
       if (req.file) {
-        mediaPath = "/uploads/" + req.file.filename;
+        media =
+          "/uploads/" + req.file.filename;
       }
 
       const customer = new Customer({
@@ -179,7 +204,7 @@ app.post(
         address,
         city,
         description,
-        media: mediaPath,
+        media,
       });
 
       await customer.save();
@@ -191,93 +216,140 @@ app.post(
     } catch (err) {
       console.log(err);
 
-      res.status(500).json({
+      res.json({
+        success: false,
         message: "Save Error",
       });
     }
   }
 );
 
-/* =========================================
+/* =========================
    GET CUSTOMERS
-========================================= */
+========================= */
 
 app.get("/customers", async (req, res) => {
   try {
-    const customers = await Customer.find().sort({
-      createdAt: -1,
-    });
+    const customers =
+      await Customer.find().sort({
+        createdAt: -1,
+      });
 
     res.json(customers);
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({
-      message: "Fetch Error",
-    });
+    res.json([]);
   }
 });
 
-/* =========================================
+/* =========================
    DELETE CUSTOMER
-========================================= */
+========================= */
 
-app.delete("/customer/:id", async (req, res) => {
-  try {
-    const customer = await Customer.findById(req.params.id);
+app.delete(
+  "/delete-customer/:id",
+  async (req, res) => {
+    try {
+      const customer =
+        await Customer.findById(
+          req.params.id
+        );
 
-    if (!customer) {
-      return res.status(404).json({
-        message: "Customer not found",
-      });
-    }
+      if (!customer) {
+        return res.json({
+          success: false,
+        });
+      }
 
-    if (customer.media) {
-      const filePath = path.join(
-        __dirname,
-        customer.media
+      if (customer.media) {
+        const filePath = path.join(
+          __dirname,
+          customer.media
+        );
+
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+
+      await Customer.findByIdAndDelete(
+        req.params.id
       );
 
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
+      res.json({
+        success: true,
+      });
+    } catch (err) {
+      console.log(err);
 
-    await Customer.findByIdAndDelete(req.params.id);
+      res.json({
+        success: false,
+      });
+    }
+  }
+);
+
+/* =========================
+   SEND EMAIL
+========================= */
+
+app.post("/send-email", async (req, res) => {
+  try {
+    const { to, subject, text } =
+      req.body;
+
+    const transporter =
+      nodemailer.createTransport({
+        service: "gmail",
+
+        auth: {
+          user:
+            process.env.EMAIL_USER,
+          pass:
+            process.env.EMAIL_PASS,
+        },
+      });
+
+    await transporter.sendMail({
+      from:
+        process.env.EMAIL_USER,
+      to,
+      subject,
+      text,
+    });
 
     res.json({
       success: true,
-      message: "Customer Deleted",
     });
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({
-      message: "Delete Error",
+    res.json({
+      success: false,
     });
   }
 });
 
-/* =========================================
-   DEFAULT ROUTES
-========================================= */
+/* =========================
+   DEFAULT
+========================= */
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/login.html"));
+  res.sendFile(
+    path.join(
+      __dirname,
+      "public/login.html"
+    )
+  );
 });
 
-/* =========================================
-   404
-========================================= */
-
-app.use((req, res) => {
-  res.status(404).send("Page Not Found");
-});
-
-/* =========================================
+/* =========================
    SERVER
-========================================= */
+========================= */
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(
+    `Server running on port ${PORT}`
+  );
 });
