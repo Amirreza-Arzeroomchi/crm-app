@@ -3,153 +3,399 @@
 
 <head>
 
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  >
+  />
 
   <title>Customer Form</title>
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <style>
+
+    * {
+
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+
+    }
+
+    body {
+
+      background: #111;
+      color: white;
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 40px 20px;
+
+    }
+
+    .container {
+
+      width: 100%;
+      max-width: 950px;
+
+      background: #1b1b1b;
+
+      padding: 40px;
+
+      border-radius: 25px;
+
+      box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.15);
+
+    }
+
+    .logo {
+
+      text-align: center;
+
+      margin-bottom: 35px;
+
+    }
+
+    .logo img {
+
+      width: 100%;
+      max-width: 500px;
+
+    }
+
+    h1 {
+
+      color: gold;
+
+      margin-bottom: 30px;
+
+      text-align: center;
+
+      font-size: 42px;
+
+    }
+
+    form {
+
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+    }
+
+    .grid {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 20px;
+
+    }
+
+    input,
+    textarea {
+
+      width: 100%;
+
+      padding: 18px;
+
+      border: none;
+
+      border-radius: 14px;
+
+      background: #6f727a;
+
+      color: white;
+
+      font-size: 18px;
+
+      outline: none;
+
+    }
+
+    textarea {
+
+      min-height: 160px;
+
+      resize: vertical;
+
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+
+      color: #ddd;
+
+    }
+
+    .upload-box {
+
+      background: #202020;
+
+      padding: 20px;
+
+      border-radius: 16px;
+
+    }
+
+    .upload-title {
+
+      margin-bottom: 15px;
+
+      color: #aaa;
+
+      font-size: 18px;
+
+    }
+
+    input[type="file"] {
+
+      background: transparent;
+      padding: 0;
+
+    }
+
+    button {
+
+      border: none;
+
+      background: gold;
+
+      color: black;
+
+      font-size: 24px;
+
+      font-weight: bold;
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+      cursor: pointer;
+
+      transition: 0.3s;
+
+    }
+
+    button:hover {
+
+      opacity: 0.85;
+
+    }
+
+    .dashboard-link {
+
+      text-align: center;
+
+      margin-top: 20px;
+
+    }
+
+    .dashboard-link a {
+
+      color: gold;
+
+      text-decoration: none;
+
+      font-size: 18px;
+
+    }
+
+    @media (max-width: 768px) {
+
+      .grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .container {
+
+        padding: 25px;
+
+      }
+
+      h1 {
+
+        font-size: 32px;
+
+      }
+
+    }
+
+  </style>
 
 </head>
 
 <body>
 
-  <div class="customer-container">
+  <div class="container">
 
-    <!-- LOGO -->
+    <div class="logo">
 
-    <img
-      src="logo.png"
-      class="logo"
-    >
+      <img
+        src="logo.png"
+        alt="Logo"
+      />
 
-    <!-- FORM -->
+    </div>
+
+    <h1>Add Customer</h1>
 
     <form
       id="customerForm"
-      class="customer-form"
+      enctype="multipart/form-data"
     >
 
-      <h1 class="form-title">
-        Add Customer
-      </h1>
-
-      <!-- ROW 1 -->
-
-      <div class="row">
+      <div class="grid">
 
         <input
           type="text"
-          id="firstName"
-          placeholder="First Name *"
+          name="firstName"
+          placeholder="First Name"
           required
-        >
+        />
 
         <input
           type="text"
-          id="lastName"
-          placeholder="Last Name *"
+          name="lastName"
+          placeholder="Last Name"
           required
-        >
-
-      </div>
-
-      <!-- ROW 2 -->
-
-      <div class="row">
+        />
 
         <input
           type="text"
-          id="phone"
-          placeholder="Phone *"
+          name="phone"
+          placeholder="Phone"
           required
-        >
+        />
 
         <input
           type="email"
-          id="email"
-          placeholder="Email *"
+          name="email"
+          placeholder="Email"
           required
-        >
-
-      </div>
-
-      <!-- ROW 3 -->
-
-      <div class="row">
+        />
 
         <input
           type="text"
-          id="address"
+          name="address"
           placeholder="Address"
-        >
+        />
 
         <input
           type="text"
-          id="city"
-          placeholder="City *"
-          required
-        >
+          name="city"
+          placeholder="City"
+        />
 
       </div>
-
-      <!-- DESCRIPTION -->
 
       <textarea
-        id="description"
-        placeholder="Description / Notes / Request"
+        name="description"
+        placeholder="Description / Request"
       ></textarea>
-
-      <!-- FILE UPLOAD -->
 
       <div class="upload-box">
 
-        <label class="upload-label">
+        <div class="upload-title">
 
           + Add Media / PDF / Images / Videos
 
-        </label>
+        </div>
 
         <input
           type="file"
-          id="files"
+          name="media"
           multiple
-        >
+        />
 
       </div>
 
-      <!-- BUTTONS -->
+      <button type="submit">
 
-      <div class="button-row">
+        Save Customer
 
-        <button
-          type="submit"
-          class="save-btn"
-        >
-          Save Customer
-        </button>
-
-        <a
-          href="/dashboard.html"
-          class="dashboard-btn"
-        >
-          Dashboard
-        </a>
-
-      </div>
+      </button>
 
     </form>
 
+    <div class="dashboard-link">
+
+      <a href="/dashboard.html">
+
+        Dashboard
+
+      </a>
+
+    </div>
+
   </div>
 
-  <script src="app.js"></script>
+  <script>
+
+    const form =
+      document.getElementById(
+        "customerForm"
+      );
+
+    form.addEventListener(
+      "submit",
+      async (e) => {
+
+        e.preventDefault();
+
+        try {
+
+          const formData =
+            new FormData(form);
+
+          const response =
+            await fetch(
+              "/add-customer",
+              {
+
+                method: "POST",
+
+                body: formData
+
+              }
+            );
+
+          const data =
+            await response.json();
+
+          alert(data.message);
+
+          if (
+            data.message ===
+            "Customer Saved"
+          ) {
+
+            window.location.href =
+              "/dashboard.html";
+
+          }
+
+        } catch (err) {
+
+          console.log(err);
+
+          alert("Save Error");
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 
