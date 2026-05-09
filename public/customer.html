@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Customer Form</title>
+
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="customer-container">
 
-    <!-- LOGO ONLY -->
-    <div class="logo-container">
-      <img src="logo.png" class="logo" alt="Company Logo" onerror="this.onerror=null;this.src='default-logo.png';" />
-    </div>
+    <img src="logo.png" class="logo">
 
-    <form id="customerForm">
+    <form id="customerForm" class="customer-form">
 
-      <label for="firstName">First Name *</label>
-      <input type="text" id="firstName" placeholder="First Name *" required>
+      <div class="row">
 
-      <label for="lastName">Last Name *</label>
-      <input type="text" id="lastName" placeholder="Last Name *" required>
+        <input type="text" id="firstName" placeholder="First Name *" required>
 
-      <label for="phone">Phone *</label>
-      <input type="text" id="phone" placeholder="Phone *" required>
+        <input type="text" id="lastName" placeholder="Last Name *" required>
 
-      <label for="email">Email *</label>
-      <input type="email" id="email" placeholder="Email *" required>
+      </div>
 
-      <label for="address">Address (optional)</label>
-      <input type="text" id="address" placeholder="Address (optional)">
+      <div class="row">
 
-      <label for="city">City *</label>
-      <input type="text" id="city" placeholder="City *" required>
+        <input type="text" id="phone" placeholder="Phone *" required>
 
-      <textarea id="description" placeholder="Description / Request"></textarea>
+        <input type="email" id="email" placeholder="Email *" required>
 
-      <button type="submit">Save</button>
+      </div>
+
+      <div class="row">
+
+        <input type="text" id="address" placeholder="Address">
+
+        <input type="text" id="city" placeholder="City *" required>
+
+      </div>
+
+      <textarea
+        id="description"
+        placeholder="Description / Request"
+      ></textarea>
+
+      <button type="submit">
+        Save Customer
+      </button>
 
     </form>
 
-    <a href="dashboard.html">Go to Dashboard</a>
+    <a href="/dashboard.html" class="dashboard-link">
+      Go To Dashboard
+    </a>
 
   </div>
 
   <script src="app.js"></script>
 
 </body>
+
 </html>
