@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-<link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/logo.png">
 
-<link rel="apple-touch-icon" href="/logo.png">
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
 
   <meta
     name="viewport"
@@ -14,8 +14,7 @@
 
   <title>Dashboard</title>
 
-  <link rel="stylesheet" href="style.css"/>
-
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -77,15 +76,10 @@
         <tr>
 
           <th>First Name</th>
-
           <th>Last Name</th>
-
           <th>Email</th>
-
           <th>Phone</th>
-
           <th>City</th>
-
           <th>Actions</th>
 
         </tr>
@@ -97,45 +91,27 @@
     </table>
 
     <div
-  id="customerDetails"
-  class="customer-details"
-  style="display:none;"
->
-
-  <div
-    style="
-      display:flex;
-      justify-content:flex-end;
-      margin-bottom:20px;
-    "
-  >
-
-    <button
-      onclick="closeCustomerDetails()"
-      style="
-        background:#ff4040;
-        color:white;
-        border:none;
-        padding:12px 20px;
-        border-radius:10px;
-        cursor:pointer;
-        font-weight:bold;
-      "
+      id="customerDetails"
+      class="customer-details"
+      style="display:none;"
     >
-      Close
-    </button>
-
-  </div>
-
-</div>
+    </div>
 
   </div>
 
   <script>
 
+    function closeCustomerDetails() {
+
+      document
+        .getElementById("customerDetails")
+        .style.display = "none";
+
+    }
+
     let customers = [];
 
-    async function loadCustomers(){
+    async function loadCustomers() {
 
       try {
 
@@ -147,7 +123,7 @@
 
         renderCustomers(customers);
 
-      } catch(err){
+      } catch (err) {
 
         console.log(err);
 
@@ -155,7 +131,7 @@
 
     }
 
-    function renderCustomers(data){
+    function renderCustomers(data) {
 
       const table =
         document.getElementById(
@@ -170,25 +146,15 @@
 
           <tr>
 
-            <td>
-              ${customer.firstName || ""}
-            </td>
+            <td>${customer.firstName || ""}</td>
 
-            <td>
-              ${customer.lastName || ""}
-            </td>
+            <td>${customer.lastName || ""}</td>
 
-            <td>
-              ${customer.email || ""}
-            </td>
+            <td>${customer.email || ""}</td>
 
-            <td>
-              ${customer.phone || ""}
-            </td>
+            <td>${customer.phone || ""}</td>
 
-            <td>
-              ${customer.city || ""}
-            </td>
+            <td>${customer.city || ""}</td>
 
             <td>
 
@@ -216,34 +182,30 @@
 
     }
 
-    function viewCustomer(id){
+    function viewCustomer(id) {
 
       const customer =
         customers.find(
           c => c._id === id
         );
 
-      if(!customer) return;
+      if (!customer) return;
 
       let mediaHTML = "";
 
-      if(customer.media){
+      if (customer.media) {
 
         const file =
-          customer.media
-          .toLowerCase();
+          customer.media.toLowerCase();
 
-        if(
+        if (
 
-          file.endsWith(".jpg")
-          ||
-          file.endsWith(".jpeg")
-          ||
-          file.endsWith(".png")
-          ||
+          file.endsWith(".jpg") ||
+          file.endsWith(".jpeg") ||
+          file.endsWith(".png") ||
           file.endsWith(".webp")
 
-        ){
+        ) {
 
           mediaHTML = `
 
@@ -260,11 +222,9 @@
 
         }
 
-        else if(
-
+        else if (
           file.endsWith(".mp4")
-
-        ){
+        ) {
 
           mediaHTML = `
 
@@ -310,48 +270,61 @@
           "customerDetails"
         );
 
-      details.innerHTML += `
+      details.innerHTML = `
+
+        <div
+          style="
+            display:flex;
+            justify-content:flex-end;
+            margin-bottom:20px;
+          "
+        >
+
+          <button
+            onclick="closeCustomerDetails()"
+            style="
+              background:#ff4040;
+              color:white;
+              border:none;
+              padding:12px 20px;
+              border-radius:10px;
+              cursor:pointer;
+              font-weight:bold;
+            "
+          >
+            Close
+          </button>
+
+        </div>
 
         <h2>
-
           ${customer.firstName}
           ${customer.lastName}
-
         </h2>
 
         <p>
-
           <b>Phone:</b>
           ${customer.phone}
-
         </p>
 
         <p>
-
           <b>Email:</b>
           ${customer.email}
-
         </p>
 
         <p>
-
           <b>Address:</b>
-          ${customer.address}
-
+          ${customer.address || ""}
         </p>
 
         <p>
-
           <b>City:</b>
-          ${customer.city}
-
+          ${customer.city || ""}
         </p>
 
         <p>
-
           <b>Description:</b>
-          ${customer.description}
-
+          ${customer.description || ""}
         </p>
 
         ${mediaHTML}
@@ -367,32 +340,27 @@
 
       `;
 
-      details.style.display =
-        "block";
+      details.style.display = "block";
 
       details.scrollIntoView({
-
-        behavior:"smooth"
-
+        behavior: "smooth"
       });
 
     }
 
-    async function deleteCustomer(id){
+    async function deleteCustomer(id) {
 
       const confirmDelete =
-        confirm(
-          "Delete customer?"
-        );
+        confirm("Delete customer?");
 
-      if(!confirmDelete) return;
+      if (!confirmDelete) return;
 
       await fetch(
 
         "/delete-customer/" + id,
 
         {
-          method:"DELETE"
+          method: "DELETE"
         }
 
       );
@@ -407,7 +375,7 @@
 
     }
 
-    async function sendSingleEmail(email){
+    async function sendSingleEmail(email) {
 
       const subject =
         prompt("Email Subject");
@@ -415,21 +383,21 @@
       const text =
         prompt("Email Message");
 
-      if(!subject || !text) return;
+      if (!subject || !text) return;
 
       const response =
         await fetch("/send-email", {
 
-          method:"POST",
+          method: "POST",
 
-          headers:{
+          headers: {
             "Content-Type":
               "application/json"
           },
 
-          body:JSON.stringify({
+          body: JSON.stringify({
 
-            to:email,
+            to: email,
             subject,
             text
 
@@ -440,7 +408,7 @@
       const data =
         await response.json();
 
-      if(data.success){
+      if (data.success) {
 
         alert("Email Sent");
 
@@ -452,7 +420,7 @@
 
     }
 
-    async function sendGroupEmail(){
+    async function sendGroupEmail() {
 
       const subject =
         prompt("Email Subject");
@@ -460,26 +428,26 @@
       const text =
         prompt("Email Message");
 
-      if(!subject || !text) return;
+      if (!subject || !text) return;
 
       const emails =
         customers
-        .map(c => c.email)
-        .join(",");
+          .map(c => c.email)
+          .join(",");
 
       const response =
         await fetch("/send-email", {
 
-          method:"POST",
+          method: "POST",
 
-          headers:{
+          headers: {
             "Content-Type":
               "application/json"
           },
 
-          body:JSON.stringify({
+          body: JSON.stringify({
 
-            to:emails,
+            to: emails,
             subject,
             text
 
@@ -490,7 +458,7 @@
       const data =
         await response.json();
 
-      if(data.success){
+      if (data.success) {
 
         alert("Emails Sent");
 
@@ -502,13 +470,13 @@
 
     }
 
-    function printCustomers(){
+    function printCustomers() {
 
       window.print();
 
     }
 
-    function logout(){
+    function logout() {
 
       localStorage.clear();
 
@@ -517,7 +485,7 @@
 
     }
 
-    function goToCustomerForm(){
+    function goToCustomerForm() {
 
       window.location.href =
         "customer.html";
@@ -530,11 +498,10 @@
       )
       .addEventListener(
         "keyup",
-        function(){
+        function () {
 
           const value =
-            this.value
-            .toLowerCase();
+            this.value.toLowerCase();
 
           const filtered =
             customers.filter(c => {
@@ -542,26 +509,26 @@
               return (
 
                 c.firstName
-                ?.toLowerCase()
-                .includes(value)
+                  ?.toLowerCase()
+                  .includes(value)
 
                 ||
 
                 c.lastName
-                ?.toLowerCase()
-                .includes(value)
+                  ?.toLowerCase()
+                  .includes(value)
 
                 ||
 
                 c.email
-                ?.toLowerCase()
-                .includes(value)
+                  ?.toLowerCase()
+                  .includes(value)
 
                 ||
 
                 c.phone
-                ?.toLowerCase()
-                .includes(value)
+                  ?.toLowerCase()
+                  .includes(value)
 
               );
 
@@ -574,21 +541,8 @@
 
     loadCustomers();
 
-  <script>
-
-function closeCustomerDetails(){
-
-  const details =
-    document.getElementById(
-      "customerDetails"
-    );
-
-  details.style.display =
-    "none";
-
-}
-
-</script>
+  </script>
 
 </body>
+
 </html>
