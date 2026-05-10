@@ -401,7 +401,7 @@
   if (!subject || !text) return;
 
   const mailtoLink =
-    `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;   
 
   window.location.href =
     mailtoLink;
