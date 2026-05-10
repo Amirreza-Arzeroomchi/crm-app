@@ -333,7 +333,23 @@
 
         <button
           class="email-btn"
-          onclick="sendSingleEmail('${customer.email}')"
+          function sendSingleEmail(email) {
+
+  const subject =
+    prompt("Email Subject");
+
+  const text =
+    prompt("Email Message");
+
+  if (!subject || !text) return;
+
+  const mailtoLink =
+    `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+
+  window.location.href =
+    mailtoLink;
+
+}
         >
           Send Email
         </button>
@@ -375,7 +391,23 @@
 
     }
 
-    async function sendSingleEmail(email) {
+    function sendSingleEmail(email) {
+
+  const subject =
+    prompt("Email Subject");
+
+  const text =
+    prompt("Email Message");
+
+  if (!subject || !text) return;
+
+  const mailtoLink =
+    `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+
+  window.location.href =
+    mailtoLink;
+
+}
 
       const subject =
         prompt("Email Subject");
@@ -420,7 +452,29 @@
 
     }
 
-    async function sendGroupEmail() {
+    function sendGroupEmail() {
+
+  const subject =
+    prompt("Email Subject");
+
+  const text =
+    prompt("Email Message");
+
+  if (!subject || !text) return;
+
+  const emails =
+    customers
+      .map(c => c.email)
+      .filter(email => email)
+      .join(",");
+
+  const mailtoLink =
+    `mailto:${emails}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+
+  window.location.href =
+    mailtoLink;
+
+}
 
       const subject =
         prompt("Email Subject");
